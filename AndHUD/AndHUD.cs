@@ -10,19 +10,36 @@ namespace AndroidHUD
 {
 	public class AndHUD
 	{
-		static ManualResetEvent waitDismiss = new ManualResetEvent(false);
-		public static Dialog CurrentDialog { get; private set; }
+		static AndHUD shared;
 
-		static ProgressWheel progressWheel = null;
-		static TextView statusText = null;
-		static ImageView imageView = null;
+		public static AndHUD Shared
+		{
+			get
+			{
+				if (shared == null)
+					shared = new AndHUD ();
 
-		static object statusObj = null;
+				return shared;
+			}
+		}
 
-		readonly static object dialogLock = new object();
+		public AndHUD()
+		{
+		}
+
+		ManualResetEvent waitDismiss = new ManualResetEvent(false);
+		public Dialog CurrentDialog { get; private set; }
+
+		ProgressWheel progressWheel = null;
+		TextView statusText = null;
+		ImageView imageView = null;
+
+		object statusObj = null;
+
+		readonly object dialogLock = new object();
 
 
-		public static void Show (Activity activity, string status = null, int progress = -1, MaskType maskType = MaskType.Black, TimeSpan? timeout = null)
+		public void Show (Activity activity, string status = null, int progress = -1, MaskType maskType = MaskType.Black, TimeSpan? timeout = null)
 		{
 			if (progress >= 0)
 				showProgress (activity, progress, status, maskType, timeout);
@@ -30,7 +47,7 @@ namespace AndroidHUD
 				showStatus (activity, true, status, maskType, timeout);
 		}
 
-		static void showStatus (Activity activity, bool spinner, string status = null, MaskType maskType = MaskType.Black, TimeSpan? timeout = null, bool centered = true)
+		void showStatus (Activity activity, bool spinner, string status = null, MaskType maskType = MaskType.Black, TimeSpan? timeout = null, bool centered = true)
 		{
 			if (timeout == null)
 				timeout = TimeSpan.Zero;
@@ -97,14 +114,14 @@ namespace AndroidHUD
 			}
 		}
 
-		static int DpToPx(Context context, int dp) 
+		int DpToPx(Context context, int dp) 
 		{
 			var displayMetrics = context.Resources.DisplayMetrics;
 			int px = (int)Math.Round((double)dp * ((double)displayMetrics.Xdpi / (double)Android.Util.DisplayMetricsDensity.Default));       
 			return px;
 		}
 
-		static void showProgress(Activity activity, int progress, string status = null, MaskType maskType = MaskType.Black, TimeSpan? timeout = null)
+		void showProgress(Activity activity, int progress, string status = null, MaskType maskType = MaskType.Black, TimeSpan? timeout = null)
 		{
 			if (timeout == null)
 				timeout = TimeSpan.Zero;
@@ -155,7 +172,7 @@ namespace AndroidHUD
 		}
 
 
-		static void showImage(Activity activity, Android.Graphics.Drawables.Drawable image, string status = null, MaskType maskType = MaskType.Black, TimeSpan? timeout = null)
+		void showImage(Activity activity, Android.Graphics.Drawables.Drawable image, string status = null, MaskType maskType = MaskType.Black, TimeSpan? timeout = null)
 		{
 			if (timeout == null)
 				timeout = TimeSpan.Zero;
@@ -207,7 +224,7 @@ namespace AndroidHUD
 
 
 
-		static void SetupDialog(Activity activity, MaskType maskType, Func<Activity, Dialog, MaskType, View> customSetup)
+		void SetupDialog(Activity activity, MaskType maskType, Func<Activity, Dialog, MaskType, View> customSetup)
 		{
 			activity.RunOnUiThread (() => {
 
@@ -231,47 +248,47 @@ namespace AndroidHUD
 		}
 
 
-		public static void ShowSuccess(Activity activity, string status = null, MaskType maskType = MaskType.Black, TimeSpan? timeout = null)
+		public void ShowSuccess(Activity activity, string status = null, MaskType maskType = MaskType.Black, TimeSpan? timeout = null)
 		{
 			showImage (activity, activity.Resources.GetDrawable (Resource.Drawable.ic_successstatus), status, maskType, timeout);
 		}
 
-		public static void ShowError(Activity activity, string status = null, MaskType maskType = MaskType.Black, TimeSpan? timeout = null)
+		public void ShowError(Activity activity, string status = null, MaskType maskType = MaskType.Black, TimeSpan? timeout = null)
 		{
 			showImage (activity, activity.Resources.GetDrawable (Resource.Drawable.ic_errorstatus), status, maskType, timeout);
 		}
 
-		public static void ShowSuccessWithStatus(Activity activity, string status, MaskType maskType = MaskType.Black, TimeSpan? timeout = null)
+		public void ShowSuccessWithStatus(Activity activity, string status, MaskType maskType = MaskType.Black, TimeSpan? timeout = null)
 		{
 			showImage (activity, activity.Resources.GetDrawable (Resource.Drawable.ic_successstatus), status, maskType, timeout);
 		}
 
-		public static void ShowErrorWithStatus(Activity activity, string status, MaskType maskType = MaskType.Black, TimeSpan? timeout = null)
+		public void ShowErrorWithStatus(Activity activity, string status, MaskType maskType = MaskType.Black, TimeSpan? timeout = null)
 		{
 			showImage (activity, activity.Resources.GetDrawable (Resource.Drawable.ic_errorstatus), status, maskType, timeout);
 		}
 
-		public static void ShowImage(Activity activity, int drawableResourceId, string status = null, MaskType maskType = MaskType.Black, TimeSpan? timeout = null)
+		public void ShowImage(Activity activity, int drawableResourceId, string status = null, MaskType maskType = MaskType.Black, TimeSpan? timeout = null)
 		{
 			showImage (activity, activity.Resources.GetDrawable(drawableResourceId), status, maskType, timeout);
 		}
 
-		public static void ShowImage(Activity activity, Android.Graphics.Drawables.Drawable drawable, string status = null, MaskType maskType = MaskType.Black, TimeSpan? timeout = null)
+		public void ShowImage(Activity activity, Android.Graphics.Drawables.Drawable drawable, string status = null, MaskType maskType = MaskType.Black, TimeSpan? timeout = null)
 		{
 			showImage (activity, drawable, status, maskType, timeout);
 		}
 
-		public static void ShowToast(Activity activity, string status, MaskType maskType = MaskType.Black, TimeSpan? timeout = null, bool centered = true)
+		public void ShowToast(Activity activity, string status, MaskType maskType = MaskType.Black, TimeSpan? timeout = null, bool centered = true)
 		{
 			showStatus (activity, false, status, maskType, timeout, centered);
 		}
 
-		public static void Dismiss(Activity activity)
+		public void Dismiss(Activity activity)
 		{
 			DismissCurrent (activity);
 		}
 
-		static void DismissCurrent(Activity activity)
+		void DismissCurrent(Activity activity)
 		{
 			lock (dialogLock)
 			{

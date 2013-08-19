@@ -46,37 +46,37 @@ namespace Sample
 				switch (demo)
 				{
 					case "Status Indicator Only":
-						AndHUD.Show(this, null, -1, MaskType.Black, TimeSpan.FromSeconds(3));
+						AndHUD.Shared.Show(this, null, -1, MaskType.Black, TimeSpan.FromSeconds(3));
 						break;
 					case "Status Indicator and Text":
-						AndHUD.Show(this, "Loading...", -1, MaskType.Clear, TimeSpan.FromSeconds(3));
+						AndHUD.Shared.Show(this, "Loading...", -1, MaskType.Clear, TimeSpan.FromSeconds(3));
 						break;
 					case "Progress Only":
-						ShowProgressDemo(progress => AndHUD.Show(this, null, progress, MaskType.Clear));
+						ShowProgressDemo(progress => AndHUD.Shared.Show(this, null, progress, MaskType.Clear));
 						break;
 					case "Progress and Text":
-						ShowProgressDemo(progress => AndHUD.Show(this, "Loading... " + progress + "%", progress, MaskType.Black));
+						ShowProgressDemo(progress => AndHUD.Shared.Show(this, "Loading... " + progress + "%", progress, MaskType.Black));
 						break;
 					case "Success Image Only":
-						AndHUD.ShowSuccessWithStatus(this, null, MaskType.Black, TimeSpan.FromSeconds(3));
+						AndHUD.Shared.ShowSuccessWithStatus(this, null, MaskType.Black, TimeSpan.FromSeconds(3));
 						break;
 					case "Success Image and Text":
-						AndHUD.ShowSuccessWithStatus(this, "It Worked!", MaskType.Clear, TimeSpan.FromSeconds(3));
+						AndHUD.Shared.ShowSuccessWithStatus(this, "It Worked!", MaskType.Clear, TimeSpan.FromSeconds(3));
 						break;
 					case "Error Image Only":
-						AndHUD.ShowErrorWithStatus(this, null, MaskType.Clear, TimeSpan.FromSeconds(3));
+						AndHUD.Shared.ShowErrorWithStatus(this, null, MaskType.Clear, TimeSpan.FromSeconds(3));
 						break;
 					case "Error Image and Text":
-						AndHUD.ShowErrorWithStatus(this, "It no worked :(", MaskType.Black, TimeSpan.FromSeconds(3));
+						AndHUD.Shared.ShowErrorWithStatus(this, "It no worked :(", MaskType.Black, TimeSpan.FromSeconds(3));
 						break;
 					case "Toast":
-						AndHUD.ShowToast(this, "This is a toast... Cheers!", MaskType.Black, TimeSpan.FromSeconds(3), true);
+						AndHUD.Shared.ShowToast(this, "This is a toast... Cheers!", MaskType.Black, TimeSpan.FromSeconds(3), true);
 						break;
 					case "Toast Non-Centered":
-						AndHUD.ShowToast(this, "This is a non-centered Toast...", MaskType.Clear, TimeSpan.FromSeconds(3), false);
+						AndHUD.Shared.ShowToast(this, "This is a non-centered Toast...", MaskType.Clear, TimeSpan.FromSeconds(3), false);
 						break;
 					case "Custom Image":
-						AndHUD.ShowImage(this, Resource.Drawable.ic_questionstatus, "Custom Image...", MaskType.Black, TimeSpan.FromSeconds(3));
+						AndHUD.Shared.ShowImage(this, Resource.Drawable.ic_questionstatus, "Custom Image...", MaskType.Black, TimeSpan.FromSeconds(3));
 						break;
 				}
 			
@@ -98,7 +98,7 @@ namespace Sample
 					progress += 10;
 				}
 
-				AndHUD.Dismiss (this);
+				AndHUD.Shared.Dismiss (this);
 			});
 		}
 
@@ -110,7 +110,7 @@ namespace Sample
 
 				Thread.Sleep(3000);
 
-				AndHUD.Dismiss(this);
+				AndHUD.Shared.Dismiss(this);
 			});
 		}
 	}
