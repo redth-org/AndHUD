@@ -6,12 +6,11 @@ AndHUD is a Progress / HUD library for Android which allows you to easily add am
 
 Features
 --------
- - Several types of HUDs
-   - Spinner (with and without Text)
-   - Progress (with and without Text)
-   - Image (with and without Text)
-   - Success / Error (with and without Text)
-   - Toasts
+ - Spinner (with and without Text)
+ - Progress (with and without Text)
+ - Image (with and without Text)
+ - Success / Error (with and without Text)
+ - Toasts
  - Xamarin.Android Support
  - Xamarin Component store
  - Similar API and functionality to BTProgressHUD for iOS
