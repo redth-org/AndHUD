@@ -4,6 +4,7 @@
     android:layout_height="fill_parent"
     android:orientation="vertical"
     android:background="@drawable/RoundedBg"
+    android:clickable="true"
     android:padding="16dp">
     <ProgressBar
         android:id="@+id/LoadingProgressBar"

@@ -39,15 +39,55 @@ namespace AndroidHUD
 		readonly object dialogLock = new object();
 
 
-		public void Show (Activity activity, string status = null, int progress = -1, MaskType maskType = MaskType.Black, TimeSpan? timeout = null)
+		public void Show (Activity activity, string status = null, int progress = -1, MaskType maskType = MaskType.Black, TimeSpan? timeout = null, Action clickCallback = null)
 		{
 			if (progress >= 0)
-				showProgress (activity, progress, status, maskType, timeout);
+				showProgress (activity, progress, status, maskType, timeout, clickCallback);
 			else
-				showStatus (activity, true, status, maskType, timeout);
+				showStatus (activity, true, status, maskType, timeout, clickCallback);
 		}
 
-		void showStatus (Activity activity, bool spinner, string status = null, MaskType maskType = MaskType.Black, TimeSpan? timeout = null, bool centered = true)
+		public void ShowSuccess(Activity activity, string status = null, MaskType maskType = MaskType.Black, TimeSpan? timeout = null, Action clickCallback = null)
+		{
+			showImage (activity, activity.Resources.GetDrawable (Resource.Drawable.ic_successstatus), status, maskType, timeout, clickCallback);
+		}
+
+		public void ShowError(Activity activity, string status = null, MaskType maskType = MaskType.Black, TimeSpan? timeout = null, Action clickCallback = null)
+		{
+			showImage (activity, activity.Resources.GetDrawable (Resource.Drawable.ic_errorstatus), status, maskType, timeout, clickCallback);
+		}
+
+		public void ShowSuccessWithStatus(Activity activity, string status, MaskType maskType = MaskType.Black, TimeSpan? timeout = null, Action clickCallback = null)
+		{
+			showImage (activity, activity.Resources.GetDrawable (Resource.Drawable.ic_successstatus), status, maskType, timeout, clickCallback);
+		}
+
+		public void ShowErrorWithStatus(Activity activity, string status, MaskType maskType = MaskType.Black, TimeSpan? timeout = null, Action clickCallback = null)
+		{
+			showImage (activity, activity.Resources.GetDrawable (Resource.Drawable.ic_errorstatus), status, maskType, timeout, clickCallback);
+		}
+
+		public void ShowImage(Activity activity, int drawableResourceId, string status = null, MaskType maskType = MaskType.Black, TimeSpan? timeout = null, Action clickCallback = null)
+		{
+			showImage (activity, activity.Resources.GetDrawable(drawableResourceId), status, maskType, timeout, clickCallback);
+		}
+
+		public void ShowImage(Activity activity, Android.Graphics.Drawables.Drawable drawable, string status = null, MaskType maskType = MaskType.Black, TimeSpan? timeout = null, Action clickCallback = null)
+		{
+			showImage (activity, drawable, status, maskType, timeout, clickCallback);
+		}
+
+		public void ShowToast(Activity activity, string status, MaskType maskType = MaskType.Black, TimeSpan? timeout = null, bool centered = true, Action clickCallback = null)
+		{
+			showStatus (activity, false, status, maskType, timeout, clickCallback, centered);
+		}
+
+		public void Dismiss(Activity activity)
+		{
+			DismissCurrent (activity);
+		}
+
+		void showStatus (Activity activity, bool spinner, string status = null, MaskType maskType = MaskType.Black, TimeSpan? timeout = null, Action clickCallback = null, bool centered = true)
 		{
 			if (timeout == null)
 				timeout = TimeSpan.Zero;
@@ -65,6 +105,9 @@ namespace AndroidHUD
 						View view;
 
 						view = LayoutInflater.From (activity).Inflate (Resource.Layout.Loading, null);
+
+						if (clickCallback != null)
+							view.Click += (sender, e) => clickCallback();
 
 						statusObj = new object();
 
@@ -121,7 +164,7 @@ namespace AndroidHUD
 			return px;
 		}
 
-		void showProgress(Activity activity, int progress, string status = null, MaskType maskType = MaskType.Black, TimeSpan? timeout = null)
+		void showProgress(Activity activity, int progress, string status = null, MaskType maskType = MaskType.Black, TimeSpan? timeout = null, Action clickCallback = null)
 		{
 			if (timeout == null)
 				timeout = TimeSpan.Zero;
@@ -134,13 +177,16 @@ namespace AndroidHUD
 				if (CurrentDialog == null)
 				{
 					SetupDialog (activity, maskType, (a, d, m) => {
-						var progressView = activity.LayoutInflater.Inflate(Resource.Layout.LoadingProgress, null);
+						var view = activity.LayoutInflater.Inflate(Resource.Layout.LoadingProgress, null);
 
-						progressWheel = progressView.FindViewById<ProgressWheel>(Resource.Id.LoadingProgressWheel);
-						statusText = progressView.FindViewById<TextView>(Resource.Id.textViewStatus);
+						if (clickCallback != null)
+							view.Click += (sender, e) => clickCallback();
+
+						progressWheel = view.FindViewById<ProgressWheel>(Resource.Id.LoadingProgressWheel);
+						statusText = view.FindViewById<TextView>(Resource.Id.textViewStatus);
 
 						if (maskType != MaskType.Black)
-							progressView.SetBackgroundResource(Resource.Drawable.RoundedBgDark);
+							view.SetBackgroundResource(Resource.Drawable.RoundedBgDark);
 
 						progressWheel.SetProgress(0);
 
@@ -150,7 +196,7 @@ namespace AndroidHUD
 							statusText.Visibility = string.IsNullOrEmpty(status) ? ViewStates.Gone : ViewStates.Visible;
 						}
 
-						return progressView;
+						return view;
 					});
 
 					if (timeout > TimeSpan.Zero)
@@ -172,7 +218,7 @@ namespace AndroidHUD
 		}
 
 
-		void showImage(Activity activity, Android.Graphics.Drawables.Drawable image, string status = null, MaskType maskType = MaskType.Black, TimeSpan? timeout = null)
+		void showImage(Activity activity, Android.Graphics.Drawables.Drawable image, string status = null, MaskType maskType = MaskType.Black, TimeSpan? timeout = null, Action clickCallback = null)
 		{
 			if (timeout == null)
 				timeout = TimeSpan.Zero;
@@ -186,6 +232,9 @@ namespace AndroidHUD
 				{
 					SetupDialog (activity, maskType, (a, d, m) => {
 						var view = activity.LayoutInflater.Inflate(Resource.Layout.LoadingImage, null);
+
+						if (clickCallback != null)
+							view.Click += (sender, e) => clickCallback();
 
 						imageView = view.FindViewById<ImageView>(Resource.Id.LoadingImage);
 						statusText = view.FindViewById<TextView>(Resource.Id.textViewStatus);
@@ -245,47 +294,6 @@ namespace AndroidHUD
 				CurrentDialog.Show ();
 
 			});
-		}
-
-
-		public void ShowSuccess(Activity activity, string status = null, MaskType maskType = MaskType.Black, TimeSpan? timeout = null)
-		{
-			showImage (activity, activity.Resources.GetDrawable (Resource.Drawable.ic_successstatus), status, maskType, timeout);
-		}
-
-		public void ShowError(Activity activity, string status = null, MaskType maskType = MaskType.Black, TimeSpan? timeout = null)
-		{
-			showImage (activity, activity.Resources.GetDrawable (Resource.Drawable.ic_errorstatus), status, maskType, timeout);
-		}
-
-		public void ShowSuccessWithStatus(Activity activity, string status, MaskType maskType = MaskType.Black, TimeSpan? timeout = null)
-		{
-			showImage (activity, activity.Resources.GetDrawable (Resource.Drawable.ic_successstatus), status, maskType, timeout);
-		}
-
-		public void ShowErrorWithStatus(Activity activity, string status, MaskType maskType = MaskType.Black, TimeSpan? timeout = null)
-		{
-			showImage (activity, activity.Resources.GetDrawable (Resource.Drawable.ic_errorstatus), status, maskType, timeout);
-		}
-
-		public void ShowImage(Activity activity, int drawableResourceId, string status = null, MaskType maskType = MaskType.Black, TimeSpan? timeout = null)
-		{
-			showImage (activity, activity.Resources.GetDrawable(drawableResourceId), status, maskType, timeout);
-		}
-
-		public void ShowImage(Activity activity, Android.Graphics.Drawables.Drawable drawable, string status = null, MaskType maskType = MaskType.Black, TimeSpan? timeout = null)
-		{
-			showImage (activity, drawable, status, maskType, timeout);
-		}
-
-		public void ShowToast(Activity activity, string status, MaskType maskType = MaskType.Black, TimeSpan? timeout = null, bool centered = true)
-		{
-			showStatus (activity, false, status, maskType, timeout, centered);
-		}
-
-		public void Dismiss(Activity activity)
-		{
-			DismissCurrent (activity);
 		}
 
 		void DismissCurrent(Activity activity)

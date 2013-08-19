@@ -40,6 +40,9 @@ AndHUD.Shared.ShowImage(myActivity, Resource.Drawable.MyCustomImage, "Custom");
 
 //Dismiss a HUD that will or will not be automatically timed out
 AndHUD.Shared.Dismiss(myActivity);
+
+//Show a HUD and only close it when it's clicked
+AndHUD.Shared.ShowToast(this, "Click this toast to close it!", MaskType.Clear, null, true, () => AndHUD.Shared.Dismiss(this));
 ```
 
 ![Collage of Possible HUDs](https://raw.github.com/Redth/AndHUD/master/Art/Collage.png)
@@ -48,7 +51,7 @@ Other Options
 -------------
  - **MaskType:** By default, MaskType.Black dims the background behind the HUD.  Use MaskType.Clear to prevent the dimming
  - **Timeout:** If you provide a timeout, the HUD will automatically be dismissed after the timeout elapses, if you have not already dismissed it manually.
-
+ - **Click Callback:** If you provide a clickCallback parameter, when the HUD is tapped by the user, the action supplied will be executed.
 
 
 Thanks

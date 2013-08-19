@@ -26,7 +26,8 @@ namespace Sample
 			"Error Image and Text",
 			"Toast",
 			"Toast Non-Centered",
-			"Custom Image"
+			"Custom Image",
+			"Click Callback"
 		};
 
 		ArrayAdapter<string> adapter;
@@ -55,7 +56,7 @@ namespace Sample
 						ShowProgressDemo(progress => AndHUD.Shared.Show(this, null, progress, MaskType.Clear));
 						break;
 					case "Progress and Text":
-						ShowProgressDemo(progress => AndHUD.Shared.Show(this, "Loading... " + progress + "%", progress, MaskType.Black));
+						ShowProgressDemo(progress => AndHUD.Shared.Show(this, "Loading... " + progress + "%", progress, MaskType.Clear));
 						break;
 					case "Success Image Only":
 						AndHUD.Shared.ShowSuccessWithStatus(this, null, MaskType.Black, TimeSpan.FromSeconds(3));
@@ -77,6 +78,9 @@ namespace Sample
 						break;
 					case "Custom Image":
 						AndHUD.Shared.ShowImage(this, Resource.Drawable.ic_questionstatus, "Custom Image...", MaskType.Black, TimeSpan.FromSeconds(3));
+						break;
+					case "Click Callback":
+						AndHUD.Shared.ShowToast(this, "Click this toast to close it!", MaskType.Clear, null, true, () => AndHUD.Shared.Dismiss(this));
 						break;
 				}
 			

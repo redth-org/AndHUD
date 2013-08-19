@@ -3,6 +3,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
+    android:clickable="true"
     android:background="@drawable/RoundedBg"
     android:padding="16dp">
     <ImageView
