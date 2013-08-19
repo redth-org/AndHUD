@@ -44,6 +44,9 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="Mono.Android" />
+    <Reference Include="AndHUD">
+      <HintPath>..\..\..\lib\android\AndHUD.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainActivity.cs" />
@@ -65,12 +68,6 @@
     <AndroidResource Include="Resources\drawable-xhdpi\ic_questionstatus.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
-  <ItemGroup>
-    <ProjectReference Include="..\AndHUD\AndHUD.csproj">
-      <Project>{021AA4E4-9082-411F-9F4B-90AF672CA6EF}</Project>
-      <Name>AndHUD</Name>
-    </ProjectReference>
-  </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\drawable-hdpi\" />
     <Folder Include="Resources\drawable-mdpi\" />
