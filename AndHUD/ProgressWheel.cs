@@ -62,13 +62,13 @@ namespace AndroidHUD
 			//ParseAttributes(context.ObtainStyledAttributes(attrs, null)); //TODO: swap null for R.styleable.ProgressWheel
 		}
 
-		public string Text
-		{
-			get { return text; }
-			set { text = value; splitText = text.Split('\n'); }
-		}
+//		public string Text
+//		{
+//			get { return text; }
+//			set { text = value; splitText = text.Split('\n'); }
+//		}
 
-		public string[] SplitText { get { return splitText; } }
+		//public string[] SplitText { get { return splitText; } }
 
 
 		public int CircleRadius { get;set; }
@@ -107,9 +107,11 @@ namespace AndroidHUD
 		bool isSpinning = false;
 		SpinHandler spinHandler;
 
+		Android.OS.BuildVersionCodes version = Android.OS.Build.VERSION.SdkInt;
+
 		//Other
-		string text = "";
-        string[] splitText = new string[]{};
+		//string text = "";
+        //string[] splitText = new string[]{};
 
 		protected override void OnAttachedToWindow ()
 		{
@@ -226,7 +228,7 @@ namespace AndroidHUD
 		public void ResetCount() 
 		{
 			progress = 0;
-			Text = "0%";
+			//Text = "0%";
 			Invalidate();
 		}
 
@@ -250,7 +252,7 @@ namespace AndroidHUD
 
 			isSpinning = false;
 			progress++;
-			Text = Math.Round(((float)progress/(float)360)*(float)100) + "%";
+			//Text = Math.Round(((float)progress/(float)360)*(float)100) + "%";
 			spinHandler.SendEmptyMessage(0);
 		}
 
@@ -259,19 +261,24 @@ namespace AndroidHUD
 			isSpinning = false;
 			var newProgress = (int)((float)i / (float)100 * (float)360);
 
-			ValueAnimator va = (ValueAnimator)ValueAnimator.OfInt (progress, newProgress).SetDuration (250);
+			if (version >= Android.OS.BuildVersionCodes.Honeycomb)
+			{
+				ValueAnimator va = (ValueAnimator)ValueAnimator.OfInt (progress, newProgress).SetDuration (250);
 
-			va.Update += (sender, e) => {
-				var interimValue = (int)e.Animation.AnimatedValue;
+				va.Update += (sender, e) => {
+					var interimValue = (int)e.Animation.AnimatedValue;
 
-				progress = interimValue;
+					progress = interimValue;
 
-				Text = Math.Round(((float)interimValue/(float)360)*(float)100) + "%";
+					//Text = Math.Round(((float)interimValue/(float)360)*(float)100) + "%";
 
-				Invalidate();
-			};
+					Invalidate ();
+				};
 
-			va.Start ();
+				va.Start ();
+			}
+			else
+				progress = newProgress;
 
 			spinHandler.SendEmptyMessage(0);
 		}
