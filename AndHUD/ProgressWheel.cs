@@ -3,7 +3,6 @@ using Android.Views;
 using Android.Graphics;
 using Android.Util;
 using Android.Content;
-using Android.Animation;
 
 namespace AndroidHUD
 {
@@ -263,7 +262,8 @@ namespace AndroidHUD
 
 			if (version >= Android.OS.BuildVersionCodes.Honeycomb)
 			{
-				ValueAnimator va = (ValueAnimator)ValueAnimator.OfInt (progress, newProgress).SetDuration (250);
+				Android.Animation.ValueAnimator va = 
+					(Android.Animation.ValueAnimator)Android.Animation.ValueAnimator.OfInt (progress, newProgress).SetDuration (250);
 
 				va.Update += (sender, e) => {
 					var interimValue = (int)e.Animation.AnimatedValue;
