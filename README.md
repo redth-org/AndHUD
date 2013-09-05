@@ -46,6 +46,19 @@ AndHUD.Shared.ShowToast(this, "Click this toast to close it!", MaskType.Clear, n
 
 ![Collage of Possible HUDs](https://raw.github.com/Redth/AndHUD/master/Art/Collage.png)
 
+
+Changes
+-------
+v1.2
+
+  - Made all resources lowercase to work around a Xamarin.Android bug
+  - Changed all method signatures to request a Context now instead of Activity
+
+v1.1
+
+  - Target version now set to 3.1 (API Level 12), but can be used on 2.3 (API Level 9) and newer (anything below API Level 12 will lose the smooth animation for the progress indicator).
+
+
 Other Options
 -------------
  - **MaskType:** By default, MaskType.Black dims the background behind the HUD.  Use MaskType.Clear to prevent the dimming
