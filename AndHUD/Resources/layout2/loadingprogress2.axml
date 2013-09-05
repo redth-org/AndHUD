@@ -4,15 +4,13 @@
     android:layout_height="fill_parent"
     android:orientation="vertical"
     android:clickable="true"
-    android:background="@drawable/RoundedBg"
+    android:background="@drawable/roundedbg"
     android:padding="16dp">
-    <ImageView
-        android:id="@+id/LoadingImage"
+    <androidhud.ProgressWheel
+        android:id="@+id/loadingProgressWheel"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_gravity="center_horizontal|center_vertical"
-        android:scaleType="centerInside"
-        android:adjustViewBounds="true" />
+        android:layout_gravity="center_horizontal|center_vertical" />
     <TextView
         android:text="Loading..."
         android:textAppearance="?android:attr/textAppearanceSmall"

@@ -102,13 +102,13 @@ namespace AndroidHUD
 		{
 			
 			// aapt resource value: 0x7f050002
-			public static int LoadingImage = 2131034114;
+			public static int loadingImage = 2131034114;
 			
 			// aapt resource value: 0x7f050000
-			public static int LoadingProgressBar = 2131034112;
+			public static int loadingProgressBar = 2131034112;
 			
 			// aapt resource value: 0x7f050003
-			public static int LoadingProgressWheel = 2131034115;
+			public static int loadingProgressWheel = 2131034115;
 			
 			// aapt resource value: 0x7f050001
 			public static int textViewStatus = 2131034113;

@@ -44,34 +44,34 @@
     <Reference Include="Mono.Android" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="AndHUD.cs" />
     <Compile Include="ProgressWheel.cs" />
+    <Compile Include="Resources\Resource.designer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\values\Strings.xml" />
     <AndroidResource Include="Resources\values\attrs.xml" />
-    <AndroidResource Include="Resources\Layout\Loading.axml" />
-    <AndroidResource Include="Resources\Layout\LoadingProgress.axml" />
-    <AndroidResource Include="Resources\drawable\RoundedBg.xml" />
-    <AndroidResource Include="Resources\drawable\RoundedBgDark.xml" />
     <AndroidResource Include="Resources\drawable-hdpi\ic_errorstatus.png" />
     <AndroidResource Include="Resources\drawable-hdpi\ic_successstatus.png" />
     <AndroidResource Include="Resources\drawable-mdpi\ic_errorstatus.png" />
     <AndroidResource Include="Resources\drawable-mdpi\ic_successstatus.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\ic_errorstatus.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\ic_successstatus.png" />
-    <AndroidResource Include="Resources\Layout\LoadingImage.xml" />
+    <AndroidResource Include="Resources\values\strings2.xml" />
+    <AndroidResource Include="Resources\layout2\loading2.axml" />
+    <AndroidResource Include="Resources\layout2\loadingimage2.xml" />
+    <AndroidResource Include="Resources\layout2\loadingprogress2.axml" />
+    <AndroidResource Include="Resources\drawable\roundedbg2.xml" />
+    <AndroidResource Include="Resources\drawable\roundedbgdark2.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>
-    <Folder Include="Resources\Layout\" />
     <Folder Include="Resources\drawable\" />
     <Folder Include="Resources\drawable-hdpi\" />
     <Folder Include="Resources\drawable-mdpi\" />
     <Folder Include="Resources\drawable-xhdpi\" />
+    <Folder Include="Resources\layout2\" />
   </ItemGroup>
 </Project>
