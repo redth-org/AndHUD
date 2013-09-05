@@ -59,12 +59,12 @@
     <AndroidResource Include="Resources\drawable-mdpi\ic_successstatus.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\ic_errorstatus.png" />
     <AndroidResource Include="Resources\drawable-xhdpi\ic_successstatus.png" />
-    <AndroidResource Include="Resources\values\strings2.xml" />
-    <AndroidResource Include="Resources\layout2\loading2.axml" />
-    <AndroidResource Include="Resources\layout2\loadingimage2.xml" />
-    <AndroidResource Include="Resources\layout2\loadingprogress2.axml" />
-    <AndroidResource Include="Resources\drawable\roundedbg2.xml" />
-    <AndroidResource Include="Resources\drawable\roundedbgdark2.xml" />
+    <AndroidResource Include="Resources\drawable\roundedbg.xml" />
+    <AndroidResource Include="Resources\drawable\roundedbgdark.xml" />
+    <AndroidResource Include="Resources\layout\loading.axml" />
+    <AndroidResource Include="Resources\layout\loadingprogress.axml" />
+    <AndroidResource Include="Resources\layout\loadingimage.xml" />
+    <AndroidResource Include="Resources\values\strings.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>
@@ -72,6 +72,6 @@
     <Folder Include="Resources\drawable-hdpi\" />
     <Folder Include="Resources\drawable-mdpi\" />
     <Folder Include="Resources\drawable-xhdpi\" />
-    <Folder Include="Resources\layout2\" />
+    <Folder Include="Resources\layout\" />
   </ItemGroup>
 </Project>
