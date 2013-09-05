@@ -40,15 +40,15 @@ namespace Sample
 			global::AndroidHUD.Resource.Attribute.textSize = global::Sample.Resource.Attribute.textSize;
 			global::AndroidHUD.Resource.Drawable.ic_errorstatus = global::Sample.Resource.Drawable.ic_errorstatus;
 			global::AndroidHUD.Resource.Drawable.ic_successstatus = global::Sample.Resource.Drawable.ic_successstatus;
-			global::AndroidHUD.Resource.Drawable.RoundedBg = global::Sample.Resource.Drawable.RoundedBg;
-			global::AndroidHUD.Resource.Drawable.RoundedBgDark = global::Sample.Resource.Drawable.RoundedBgDark;
-			global::AndroidHUD.Resource.Id.LoadingImage = global::Sample.Resource.Id.LoadingImage;
-			global::AndroidHUD.Resource.Id.LoadingProgressBar = global::Sample.Resource.Id.LoadingProgressBar;
-			global::AndroidHUD.Resource.Id.LoadingProgressWheel = global::Sample.Resource.Id.LoadingProgressWheel;
+			global::AndroidHUD.Resource.Drawable.roundedbg = global::Sample.Resource.Drawable.roundedbg;
+			global::AndroidHUD.Resource.Drawable.roundedbgdark = global::Sample.Resource.Drawable.roundedbgdark;
+			global::AndroidHUD.Resource.Id.loadingImage = global::Sample.Resource.Id.loadingImage;
+			global::AndroidHUD.Resource.Id.loadingProgressBar = global::Sample.Resource.Id.loadingProgressBar;
+			global::AndroidHUD.Resource.Id.loadingProgressWheel = global::Sample.Resource.Id.loadingProgressWheel;
 			global::AndroidHUD.Resource.Id.textViewStatus = global::Sample.Resource.Id.textViewStatus;
-			global::AndroidHUD.Resource.Layout.Loading = global::Sample.Resource.Layout.Loading;
-			global::AndroidHUD.Resource.Layout.LoadingImage = global::Sample.Resource.Layout.LoadingImage;
-			global::AndroidHUD.Resource.Layout.LoadingProgress = global::Sample.Resource.Layout.LoadingProgress;
+			global::AndroidHUD.Resource.Layout.loading = global::Sample.Resource.Layout.loading;
+			global::AndroidHUD.Resource.Layout.loadingimage = global::Sample.Resource.Layout.loadingimage;
+			global::AndroidHUD.Resource.Layout.loadingprogress = global::Sample.Resource.Layout.loadingprogress;
 			global::AndroidHUD.Resource.String.library_name = global::Sample.Resource.String.library_name;
 			global::AndroidHUD.Resource.Styleable.ProgressWheel = global::Sample.Resource.Styleable.ProgressWheel;
 			global::AndroidHUD.Resource.Styleable.ProgressWheel_barColor = global::Sample.Resource.Styleable.ProgressWheel_barColor;
@@ -130,10 +130,10 @@ namespace Sample
 			public const int Icon = 2130837507;
 			
 			// aapt resource value: 0x7f020004
-			public const int RoundedBg = 2130837508;
+			public const int roundedbg = 2130837508;
 			
 			// aapt resource value: 0x7f020005
-			public const int RoundedBgDark = 2130837509;
+			public const int roundedbgdark = 2130837509;
 			
 			static Drawable()
 			{
@@ -149,13 +149,13 @@ namespace Sample
 		{
 			
 			// aapt resource value: 0x7f060002
-			public const int LoadingImage = 2131099650;
+			public const int loadingImage = 2131099650;
 			
 			// aapt resource value: 0x7f060000
-			public const int LoadingProgressBar = 2131099648;
+			public const int loadingProgressBar = 2131099648;
 			
 			// aapt resource value: 0x7f060003
-			public const int LoadingProgressWheel = 2131099651;
+			public const int loadingProgressWheel = 2131099651;
 			
 			// aapt resource value: 0x7f060004
 			public const int myButton = 2131099652;
@@ -177,13 +177,13 @@ namespace Sample
 		{
 			
 			// aapt resource value: 0x7f030000
-			public const int Loading = 2130903040;
+			public const int loading = 2130903040;
 			
 			// aapt resource value: 0x7f030001
-			public const int LoadingImage = 2130903041;
+			public const int loadingimage = 2130903041;
 			
 			// aapt resource value: 0x7f030002
-			public const int LoadingProgress = 2130903042;
+			public const int loadingprogress = 2130903042;
 			
 			// aapt resource value: 0x7f030003
 			public const int Main = 2130903043;

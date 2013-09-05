@@ -47,6 +47,7 @@
     <Compile Include="AndHUD.cs" />
     <Compile Include="ProgressWheel.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
+    <Compile Include="AssemblyVersion.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

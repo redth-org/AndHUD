@@ -82,9 +82,9 @@ namespace AndroidHUD
 			showStatus (context, false, status, maskType, timeout, clickCallback, centered);
 		}
 
-		public void Dismiss(Context context)
+		public void Dismiss(Context context = null)
 		{
-			DismissCurrent (context);
+			DismissCurrent ();
 		}
 
 		void showStatus (Context context, bool spinner, string status = null, MaskType maskType = MaskType.Black, TimeSpan? timeout = null, Action clickCallback = null, bool centered = true)
@@ -141,16 +141,22 @@ namespace AndroidHUD
 
 					if (timeout > TimeSpan.Zero)
 					{
-						Task.Factory.StartNew (() => {
+						Task.Factory.StartNew(() => {
 							if (!waitDismiss.WaitOne (timeout.Value))
 								DismissCurrent (context);
-						});
+
+						}).ContinueWith(ct => {
+							var ex = ct.Exception;
+
+							if (ex != null)
+								Android.Util.Log.Error("AndHUD", ex.ToString());
+						}, TaskContinuationOptions.OnlyOnFaulted);
 					}
 				}
 				else
 				{
 
-					SynchronizationContext.Current.Post(state => {
+					Application.SynchronizationContext.Post(state => {
 						if (statusText != null)
 							statusText.Text = status ?? "";
 					}, null);
@@ -203,15 +209,21 @@ namespace AndroidHUD
 
 					if (timeout > TimeSpan.Zero)
 					{
-						Task.Factory.StartNew (() => {
+						Task.Factory.StartNew(() => {
 							if (!waitDismiss.WaitOne (timeout.Value))
 								DismissCurrent (context);
-						});
+
+						}).ContinueWith(ct => {
+							var ex = ct.Exception;
+
+							if (ex != null)
+								Android.Util.Log.Error("AndHUD", ex.ToString());
+						}, TaskContinuationOptions.OnlyOnFaulted);
 					}
 				}
 				else
 				{
-					SynchronizationContext.Current.Post(state => {
+					Application.SynchronizationContext.Post(state => {
 						progressWheel.SetProgress (progress);
 						statusText.Text = status ?? "";
 					}, null);
@@ -258,15 +270,21 @@ namespace AndroidHUD
 
 					if (timeout > TimeSpan.Zero)
 					{
-						Task.Factory.StartNew (() => {
+						Task.Factory.StartNew(() => {
 							if (!waitDismiss.WaitOne (timeout.Value))
 								DismissCurrent (context);
-						});
+			
+						}).ContinueWith(ct => {
+							var ex = ct.Exception;
+
+							if (ex != null)
+								Android.Util.Log.Error("AndHUD", ex.ToString());
+						}, TaskContinuationOptions.OnlyOnFaulted);
 					}
 				}
 				else
 				{
-					SynchronizationContext.Current.Post(state => {
+					Application.SynchronizationContext.Post(state => {
 						imageView.SetImageDrawable(image);
 						statusText.Text = status ?? "";
 					}, null);
@@ -278,7 +296,7 @@ namespace AndroidHUD
 
 		void SetupDialog(Context context, MaskType maskType, Func<Context, Dialog, MaskType, View> customSetup)
 		{
-			SynchronizationContext.Current.Post(state => {
+			Application.SynchronizationContext.Post(state => {
 
 				CurrentDialog = new Dialog(context);
 
@@ -299,7 +317,7 @@ namespace AndroidHUD
 			}, null);
 		}
 
-		void DismissCurrent(Context context)
+		void DismissCurrent(Context context = null)
 		{
 			lock (dialogLock)
 			{
@@ -307,7 +325,8 @@ namespace AndroidHUD
 				{
 					waitDismiss.Set ();
 
-					SynchronizationContext.Current.Post(state => {
+					Application.SynchronizationContext.Post(state => {
+
 						CurrentDialog.Hide ();
 						CurrentDialog.Cancel ();
 
@@ -318,6 +337,7 @@ namespace AndroidHUD
 						CurrentDialog = null;
 
 						waitDismiss.Reset ();
+
 					}, null);
 
 				}
