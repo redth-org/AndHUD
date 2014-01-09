@@ -296,6 +296,7 @@ namespace AndroidHUD
 
 		void SetupDialog(Context context, MaskType maskType, Func<Context, Dialog, MaskType, View> customSetup)
 		{
+		    if (Application.SynchronizationContext == null) return;
 			Application.SynchronizationContext.Post(state => {
 
 				CurrentDialog = new Dialog(context);
