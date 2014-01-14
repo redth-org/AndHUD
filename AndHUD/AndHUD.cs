@@ -341,7 +341,7 @@ namespace AndroidHUD
 					Application.SynchronizationContext.Post(state =>
 					{
 						CurrentDialog.Hide();
-						CurrentDialog.Cancel();
+						CurrentDialog.Dismiss();
 
 						statusText = null;
 						statusObj = null;
