@@ -84,7 +84,7 @@ namespace AndroidHUD
 
 		public void Dismiss(Context context = null)
 		{
-			DismissCurrent ();
+			DismissCurrent (context);
 		}
 
 		void showStatus (Context context, bool spinner, string status = null, MaskType maskType = MaskType.Black, TimeSpan? timeout = null, Action clickCallback = null, bool centered = true)
@@ -325,7 +325,9 @@ namespace AndroidHUD
 				{
 					waitDismiss.Set ();
 
-					Application.SynchronizationContext.Post(state => {
+					(context as Activity).RunOnUiThread(delegate{
+
+						//Application.SynchronizationContext.Post(state => {
 
 						CurrentDialog.Hide ();
 						CurrentDialog.Cancel ();
@@ -338,7 +340,7 @@ namespace AndroidHUD
 
 						waitDismiss.Reset ();
 
-					}, null);
+					});//, null);
 
 				}
 			}
