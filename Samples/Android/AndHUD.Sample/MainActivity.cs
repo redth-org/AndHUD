@@ -28,7 +28,8 @@ namespace Sample
 			"Toast",
 			"Toast Non-Centered",
 			"Custom Image",
-			"Click Callback"
+			"Click Callback",
+			"Cancellable Callback"
 		};
 
 		ArrayAdapter<string> adapter;
@@ -85,6 +86,9 @@ namespace Sample
 						break;
 					case "Click Callback":
 						AndHUD.Shared.ShowToast(this, "Click this toast to close it!", MaskType.Clear, null, true, () => AndHUD.Shared.Dismiss(this));
+						break;
+					case "Cancellable Callback":
+						AndHUD.Shared.ShowToast(this, "Click back button to cancel/close it!", MaskType.None, null, true, null, () => AndHUD.Shared.Dismiss(this));
 						break;
 				}
 			
