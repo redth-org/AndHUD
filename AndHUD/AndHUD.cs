@@ -305,6 +305,9 @@ namespace AndroidHUD
 				if (maskType != MaskType.Black)
 					CurrentDialog.Window.ClearFlags(WindowManagerFlags.DimBehind);
 
+				if (maskType == MaskType.None)
+					CurrentDialog.Window.SetFlags(WindowManagerFlags.NotTouchModal, WindowManagerFlags.NotTouchModal);
+
 				CurrentDialog.Window.SetBackgroundDrawable(new Android.Graphics.Drawables.ColorDrawable(Android.Graphics.Color.Transparent));
 
 				var customView = customSetup(context, CurrentDialog, maskType);
@@ -349,6 +352,7 @@ namespace AndroidHUD
 
 	public enum MaskType
 	{
+		None = 1,
 		Clear = 2,
 		Black = 3
 	}

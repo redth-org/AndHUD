@@ -18,6 +18,7 @@ namespace Sample
 		string[] demos = new string[] {
 			"Status Indicator Only",
 			"Status Indicator and Text",
+			"Non-Modal Indicator and Text",
 			"Progress Only",
 			"Progress and Text",
 			"Success Image Only",
@@ -51,6 +52,9 @@ namespace Sample
 						break;
 					case "Status Indicator and Text":
 						AndHUD.Shared.Show(this, "Loading...", -1, MaskType.Clear, TimeSpan.FromSeconds(3));
+						break;
+					case "Non-Modal Indicator and Text":
+						AndHUD.Shared.Show(this, "Loading...", -1, MaskType.None, TimeSpan.FromSeconds(5));
 						break;
 					case "Progress Only":
 						ShowProgressDemo(progress => AndHUD.Shared.Show(this, null, progress, MaskType.Clear));
