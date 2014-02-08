@@ -26,18 +26,18 @@ namespace Sample
 		
 		public static void UpdateIdValues()
 		{
-			global::AndroidHUD.Resource.Attribute.barColor = global::Sample.Resource.Attribute.barColor;
-			global::AndroidHUD.Resource.Attribute.barLength = global::Sample.Resource.Attribute.barLength;
-			global::AndroidHUD.Resource.Attribute.barWidth = global::Sample.Resource.Attribute.barWidth;
-			global::AndroidHUD.Resource.Attribute.circleColor = global::Sample.Resource.Attribute.circleColor;
-			global::AndroidHUD.Resource.Attribute.delayMillis = global::Sample.Resource.Attribute.delayMillis;
-			global::AndroidHUD.Resource.Attribute.radius = global::Sample.Resource.Attribute.radius;
-			global::AndroidHUD.Resource.Attribute.rimColor = global::Sample.Resource.Attribute.rimColor;
-			global::AndroidHUD.Resource.Attribute.rimWidth = global::Sample.Resource.Attribute.rimWidth;
-			global::AndroidHUD.Resource.Attribute.spinSpeed = global::Sample.Resource.Attribute.spinSpeed;
-			global::AndroidHUD.Resource.Attribute.text = global::Sample.Resource.Attribute.text;
-			global::AndroidHUD.Resource.Attribute.textColor = global::Sample.Resource.Attribute.textColor;
-			global::AndroidHUD.Resource.Attribute.textSize = global::Sample.Resource.Attribute.textSize;
+			global::AndroidHUD.Resource.Attribute.ahBarColor = global::Sample.Resource.Attribute.ahBarColor;
+			global::AndroidHUD.Resource.Attribute.ahBarLength = global::Sample.Resource.Attribute.ahBarLength;
+			global::AndroidHUD.Resource.Attribute.ahBarWidth = global::Sample.Resource.Attribute.ahBarWidth;
+			global::AndroidHUD.Resource.Attribute.ahCircleColor = global::Sample.Resource.Attribute.ahCircleColor;
+			global::AndroidHUD.Resource.Attribute.ahDelayMillis = global::Sample.Resource.Attribute.ahDelayMillis;
+			global::AndroidHUD.Resource.Attribute.ahRadius = global::Sample.Resource.Attribute.ahRadius;
+			global::AndroidHUD.Resource.Attribute.ahRimColor = global::Sample.Resource.Attribute.ahRimColor;
+			global::AndroidHUD.Resource.Attribute.ahRimWidth = global::Sample.Resource.Attribute.ahRimWidth;
+			global::AndroidHUD.Resource.Attribute.ahSpinSpeed = global::Sample.Resource.Attribute.ahSpinSpeed;
+			global::AndroidHUD.Resource.Attribute.ahText = global::Sample.Resource.Attribute.ahText;
+			global::AndroidHUD.Resource.Attribute.ahTextColor = global::Sample.Resource.Attribute.ahTextColor;
+			global::AndroidHUD.Resource.Attribute.ahTextSize = global::Sample.Resource.Attribute.ahTextSize;
 			global::AndroidHUD.Resource.Drawable.ic_errorstatus = global::Sample.Resource.Drawable.ic_errorstatus;
 			global::AndroidHUD.Resource.Drawable.ic_successstatus = global::Sample.Resource.Drawable.ic_successstatus;
 			global::AndroidHUD.Resource.Drawable.roundedbg = global::Sample.Resource.Drawable.roundedbg;
@@ -51,58 +51,58 @@ namespace Sample
 			global::AndroidHUD.Resource.Layout.loadingprogress = global::Sample.Resource.Layout.loadingprogress;
 			global::AndroidHUD.Resource.String.library_name = global::Sample.Resource.String.library_name;
 			global::AndroidHUD.Resource.Styleable.ProgressWheel = global::Sample.Resource.Styleable.ProgressWheel;
-			global::AndroidHUD.Resource.Styleable.ProgressWheel_barColor = global::Sample.Resource.Styleable.ProgressWheel_barColor;
-			global::AndroidHUD.Resource.Styleable.ProgressWheel_barLength = global::Sample.Resource.Styleable.ProgressWheel_barLength;
-			global::AndroidHUD.Resource.Styleable.ProgressWheel_barWidth = global::Sample.Resource.Styleable.ProgressWheel_barWidth;
-			global::AndroidHUD.Resource.Styleable.ProgressWheel_circleColor = global::Sample.Resource.Styleable.ProgressWheel_circleColor;
-			global::AndroidHUD.Resource.Styleable.ProgressWheel_delayMillis = global::Sample.Resource.Styleable.ProgressWheel_delayMillis;
-			global::AndroidHUD.Resource.Styleable.ProgressWheel_radius = global::Sample.Resource.Styleable.ProgressWheel_radius;
-			global::AndroidHUD.Resource.Styleable.ProgressWheel_rimColor = global::Sample.Resource.Styleable.ProgressWheel_rimColor;
-			global::AndroidHUD.Resource.Styleable.ProgressWheel_rimWidth = global::Sample.Resource.Styleable.ProgressWheel_rimWidth;
-			global::AndroidHUD.Resource.Styleable.ProgressWheel_spinSpeed = global::Sample.Resource.Styleable.ProgressWheel_spinSpeed;
-			global::AndroidHUD.Resource.Styleable.ProgressWheel_text = global::Sample.Resource.Styleable.ProgressWheel_text;
-			global::AndroidHUD.Resource.Styleable.ProgressWheel_textColor = global::Sample.Resource.Styleable.ProgressWheel_textColor;
-			global::AndroidHUD.Resource.Styleable.ProgressWheel_textSize = global::Sample.Resource.Styleable.ProgressWheel_textSize;
+			global::AndroidHUD.Resource.Styleable.ProgressWheel_ahBarColor = global::Sample.Resource.Styleable.ProgressWheel_ahBarColor;
+			global::AndroidHUD.Resource.Styleable.ProgressWheel_ahBarLength = global::Sample.Resource.Styleable.ProgressWheel_ahBarLength;
+			global::AndroidHUD.Resource.Styleable.ProgressWheel_ahBarWidth = global::Sample.Resource.Styleable.ProgressWheel_ahBarWidth;
+			global::AndroidHUD.Resource.Styleable.ProgressWheel_ahCircleColor = global::Sample.Resource.Styleable.ProgressWheel_ahCircleColor;
+			global::AndroidHUD.Resource.Styleable.ProgressWheel_ahDelayMillis = global::Sample.Resource.Styleable.ProgressWheel_ahDelayMillis;
+			global::AndroidHUD.Resource.Styleable.ProgressWheel_ahRadius = global::Sample.Resource.Styleable.ProgressWheel_ahRadius;
+			global::AndroidHUD.Resource.Styleable.ProgressWheel_ahRimColor = global::Sample.Resource.Styleable.ProgressWheel_ahRimColor;
+			global::AndroidHUD.Resource.Styleable.ProgressWheel_ahRimWidth = global::Sample.Resource.Styleable.ProgressWheel_ahRimWidth;
+			global::AndroidHUD.Resource.Styleable.ProgressWheel_ahSpinSpeed = global::Sample.Resource.Styleable.ProgressWheel_ahSpinSpeed;
+			global::AndroidHUD.Resource.Styleable.ProgressWheel_ahText = global::Sample.Resource.Styleable.ProgressWheel_ahText;
+			global::AndroidHUD.Resource.Styleable.ProgressWheel_ahTextColor = global::Sample.Resource.Styleable.ProgressWheel_ahTextColor;
+			global::AndroidHUD.Resource.Styleable.ProgressWheel_ahTextSize = global::Sample.Resource.Styleable.ProgressWheel_ahTextSize;
 		}
 		
 		public partial class Attribute
 		{
 			
 			// aapt resource value: 0x7f010003
-			public const int barColor = 2130771971;
+			public const int ahBarColor = 2130771971;
 			
 			// aapt resource value: 0x7f01000b
-			public const int barLength = 2130771979;
+			public const int ahBarLength = 2130771979;
 			
 			// aapt resource value: 0x7f01000a
-			public const int barWidth = 2130771978;
+			public const int ahBarWidth = 2130771978;
 			
 			// aapt resource value: 0x7f010008
-			public const int circleColor = 2130771976;
+			public const int ahCircleColor = 2130771976;
 			
 			// aapt resource value: 0x7f010007
-			public const int delayMillis = 2130771975;
+			public const int ahDelayMillis = 2130771975;
 			
 			// aapt resource value: 0x7f010009
-			public const int radius = 2130771977;
+			public const int ahRadius = 2130771977;
 			
 			// aapt resource value: 0x7f010004
-			public const int rimColor = 2130771972;
+			public const int ahRimColor = 2130771972;
 			
 			// aapt resource value: 0x7f010005
-			public const int rimWidth = 2130771973;
+			public const int ahRimWidth = 2130771973;
 			
 			// aapt resource value: 0x7f010006
-			public const int spinSpeed = 2130771974;
+			public const int ahSpinSpeed = 2130771974;
 			
 			// aapt resource value: 0x7f010000
-			public const int text = 2130771968;
+			public const int ahText = 2130771968;
 			
 			// aapt resource value: 0x7f010001
-			public const int textColor = 2130771969;
+			public const int ahTextColor = 2130771969;
 			
 			// aapt resource value: 0x7f010002
-			public const int textSize = 2130771970;
+			public const int ahTextSize = 2130771970;
 			
 			static Attribute()
 			{
@@ -258,40 +258,40 @@ namespace Sample
 					2130771979};
 			
 			// aapt resource value: 3
-			public const int ProgressWheel_barColor = 3;
+			public const int ProgressWheel_ahBarColor = 3;
 			
 			// aapt resource value: 11
-			public const int ProgressWheel_barLength = 11;
+			public const int ProgressWheel_ahBarLength = 11;
 			
 			// aapt resource value: 10
-			public const int ProgressWheel_barWidth = 10;
+			public const int ProgressWheel_ahBarWidth = 10;
 			
 			// aapt resource value: 8
-			public const int ProgressWheel_circleColor = 8;
+			public const int ProgressWheel_ahCircleColor = 8;
 			
 			// aapt resource value: 7
-			public const int ProgressWheel_delayMillis = 7;
+			public const int ProgressWheel_ahDelayMillis = 7;
 			
 			// aapt resource value: 9
-			public const int ProgressWheel_radius = 9;
+			public const int ProgressWheel_ahRadius = 9;
 			
 			// aapt resource value: 4
-			public const int ProgressWheel_rimColor = 4;
+			public const int ProgressWheel_ahRimColor = 4;
 			
 			// aapt resource value: 5
-			public const int ProgressWheel_rimWidth = 5;
+			public const int ProgressWheel_ahRimWidth = 5;
 			
 			// aapt resource value: 6
-			public const int ProgressWheel_spinSpeed = 6;
+			public const int ProgressWheel_ahSpinSpeed = 6;
 			
 			// aapt resource value: 0
-			public const int ProgressWheel_text = 0;
+			public const int ProgressWheel_ahText = 0;
 			
 			// aapt resource value: 1
-			public const int ProgressWheel_textColor = 1;
+			public const int ProgressWheel_ahTextColor = 1;
 			
 			// aapt resource value: 2
-			public const int ProgressWheel_textSize = 2;
+			public const int ProgressWheel_ahTextSize = 2;
 			
 			static Styleable()
 			{

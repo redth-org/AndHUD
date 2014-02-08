@@ -16,7 +16,6 @@
     <AndroidUseLatestPlatformSdk>False</AndroidUseLatestPlatformSdk>
     <AssemblyName>AndHUD</AssemblyName>
     <TargetFrameworkVersion>v3.1</TargetFrameworkVersion>
-    <ReleaseVersion>0.2</ReleaseVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -50,9 +49,6 @@
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="AssemblyVersion.cs" />
     <Compile Include="XHUD.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\AboutResources.txt" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\attrs.xml" />
