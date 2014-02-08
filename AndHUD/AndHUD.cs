@@ -125,19 +125,18 @@ namespace AndroidHUD
 							statusText.Visibility = string.IsNullOrEmpty(status) ? ViewStates.Gone : ViewStates.Visible;
 						}
 
+						if (!centered)
+						{
+							d.Window.SetGravity (GravityFlags.Bottom);
+							var p = d.Window.Attributes;
+
+							p.Y = DpToPx (context, 22);
+
+							d.Window.Attributes = p;
+						}
+							
 						return view;
 					});
-
-					if (!centered)
-					{
-						CurrentDialog.Window.SetGravity (GravityFlags.Bottom);
-						var p = CurrentDialog.Window.Attributes;
-
-						p.Y = DpToPx (context, 22);
-
-						CurrentDialog.Window.Attributes = p;
-
-					}
 
 					if (timeout > TimeSpan.Zero)
 					{
@@ -331,16 +330,8 @@ namespace AndroidHUD
 				{
 					waitDismiss.Set ();
 
-					if (context == null)
-						return;
-
-					(context as Activity).RunOnUiThread(delegate{
-
-						//if (Application.SynchronizationContext == null)
-						//		return;
-						//
-						//Application.SynchronizationContext.Post(state => {
-
+					Action actionDismiss = () =>
+					{
 						CurrentDialog.Hide ();
 						CurrentDialog.Dismiss ();
 
@@ -351,8 +342,39 @@ namespace AndroidHUD
 						CurrentDialog = null;
 
 						waitDismiss.Reset ();
+					};
+						
+					//First try the SynchronizationContext
+					if (Application.SynchronizationContext != null)
+					{
+						Application.SynchronizationContext.Post (state => actionDismiss (), null);
+						return;
+					}
 
-					});//, null);
+					//Next let's try and get the Activity from the CurrentDialog
+					if (CurrentDialog != null && CurrentDialog.Window != null && CurrentDialog.Window.Context != null)
+					{
+						var activity = CurrentDialog.Window.Context as Activity;
+
+						if (activity != null)
+						{
+							activity.RunOnUiThread (actionDismiss);
+							return;
+						}
+					}
+				
+					//Finally if all else fails, let's see if someone passed in a context to dismiss and it
+					// happens to also be an Activity
+					if (context != null)
+					{
+						var activity = context as Activity;
+
+						if (activity != null)
+						{
+							activity.RunOnUiThread (actionDismiss);
+							return;
+						}
+					}
 
 				}
 			}
