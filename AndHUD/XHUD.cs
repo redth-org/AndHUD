@@ -31,6 +31,11 @@ namespace XHUD
 		{
 			AndHUD.Shared.ShowToast(HUD.MyActivity, message, (AndroidHUD.MaskType)MaskType.Black, TimeSpan.FromSeconds(timeoutMs/1000), showToastCentered);
 		}
+
+		public static void ShowToast(string message, MaskType maskType, bool showToastCentered = true, double timeoutMs = 1000)
+		{
+			AndHUD.Shared.ShowToast(HUD.MyActivity, message, (AndroidHUD.MaskType)maskType, TimeSpan.FromSeconds(timeoutMs/1000), showToastCentered);
+		}
 	}
 }
 
