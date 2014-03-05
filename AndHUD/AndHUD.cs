@@ -155,7 +155,7 @@ namespace AndroidHUD
 				else
 				{
 
-					Application.SynchronizationContext.Post(state => {
+					Application.SynchronizationContext.Send(state => {
 						if (statusText != null)
 							statusText.Text = status ?? "";
 					}, null);
@@ -222,7 +222,7 @@ namespace AndroidHUD
 				}
 				else
 				{
-					Application.SynchronizationContext.Post(state => {
+					Application.SynchronizationContext.Send(state => {
 						progressWheel.SetProgress (progress);
 						statusText.Text = status ?? "";
 					}, null);
@@ -283,7 +283,7 @@ namespace AndroidHUD
 				}
 				else
 				{
-					Application.SynchronizationContext.Post(state => {
+					Application.SynchronizationContext.Send(state => {
 						imageView.SetImageDrawable(image);
 						statusText.Text = status ?? "";
 					}, null);
@@ -295,7 +295,7 @@ namespace AndroidHUD
 
 		void SetupDialog(Context context, MaskType maskType, Action cancelCallback, Func<Context, Dialog, MaskType, View> customSetup)
 		{
-			Application.SynchronizationContext.Post(state => {
+			Application.SynchronizationContext.Send(state => {
 
 				CurrentDialog = new Dialog(context);
 
@@ -347,7 +347,7 @@ namespace AndroidHUD
 					//First try the SynchronizationContext
 					if (Application.SynchronizationContext != null)
 					{
-						Application.SynchronizationContext.Post (state => actionDismiss (), null);
+						Application.SynchronizationContext.Send (state => actionDismiss (), null);
 						return;
 					}
 
