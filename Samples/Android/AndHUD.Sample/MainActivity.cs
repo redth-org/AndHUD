@@ -29,7 +29,9 @@ namespace Sample
 			"Toast Non-Centered",
 			"Custom Image",
 			"Click Callback",
-			"Cancellable Callback"
+			"Cancellable Callback",
+			"Long Message",
+			"Really Long Message"
 		};
 
 		ArrayAdapter<string> adapter;
@@ -89,6 +91,12 @@ namespace Sample
 						break;
 					case "Cancellable Callback":
 						AndHUD.Shared.ShowToast(this, "Click back button to cancel/close it!", MaskType.None, null, true, null, () => AndHUD.Shared.Dismiss(this));
+						break;
+					case "Long Message":
+						AndHUD.Shared.Show(this, "This is a longer message to display!", -1, MaskType.Black, TimeSpan.FromSeconds(3));
+						break;
+					case "Really Long Message":
+						AndHUD.Shared.Show(this, "This is a really really long message to display as a status indicator, so you should shorten it!", -1, MaskType.Black, TimeSpan.FromSeconds(3));
 						break;
 				}
 			
