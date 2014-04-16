@@ -333,7 +333,15 @@ namespace AndroidHUD
 					Action actionDismiss = () =>
 					{
 						CurrentDialog.Hide ();
-						CurrentDialog.Dismiss ();
+
+                        try
+                        {
+                            // see: http://stackoverflow.com/questions/19510972/illegalargumentexception-in-progressdialog-dismiss
+                            if(CurrentDialog != null && CurrentDialog.IsShowing)
+                                CurrentDialog.Dismiss();
+                        }
+                        catch (Exception ex)
+                        { }
 
 						statusText = null;
 						statusObj = null;
