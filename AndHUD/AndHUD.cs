@@ -195,7 +195,9 @@ namespace AndroidHUD
 						if (maskType != MaskType.Black)
 							view.SetBackgroundResource(Resource.Drawable.roundedbgdark);
 
-						progressWheel.SetProgress(0);
+                        if (null != progressWheel) {
+                            progressWheel.SetProgress(0);
+                        }
 
 						if (statusText != null)
 						{
@@ -222,10 +224,12 @@ namespace AndroidHUD
 				}
 				else
 				{
-					Application.SynchronizationContext.Send(state => {
-						progressWheel.SetProgress (progress);
-						statusText.Text = status ?? "";
-					}, null);
+                    if (null != progressWheel) {
+                        Application.SynchronizationContext.Send(state => {
+                            progressWheel.SetProgress (progress);
+                            statusText.Text = status ?? "";
+                        }, null);
+                    }
 				}
 			}
 		}
@@ -256,7 +260,9 @@ namespace AndroidHUD
 						if (maskType != MaskType.Black)
 							view.SetBackgroundResource(Resource.Drawable.roundedbgdark);
 
-						imageView.SetImageDrawable(image);
+                        if (null != imageView) {
+                            imageView.SetImageDrawable(image);
+                        }
 
 						if (statusText != null)
 						{
@@ -283,10 +289,12 @@ namespace AndroidHUD
 				}
 				else
 				{
-					Application.SynchronizationContext.Send(state => {
-						imageView.SetImageDrawable(image);
-						statusText.Text = status ?? "";
-					}, null);
+                    if (null != imageView) {
+                        Application.SynchronizationContext.Send(state => {
+                            imageView.SetImageDrawable(image);
+                            statusText.Text = status ?? "";
+                        }, null);
+                    }
 				}
 			}
 		}
