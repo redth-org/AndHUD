@@ -255,8 +255,7 @@ namespace AndroidHUD
 			spinHandler.SendEmptyMessage(0);
 		}
 
-		public void SetProgress(int i) 
-		{
+		public void SetProgress(int i) {
 			isSpinning = false;
 			var newProgress = (int)((float)i / (float)100 * (float)360);
 
@@ -276,9 +275,10 @@ namespace AndroidHUD
 				};
 
 				va.Start ();
-			}
-			else
+			} else {
 				progress = newProgress;
+				Invalidate ();
+			}
 
 			spinHandler.SendEmptyMessage(0);
 		}
