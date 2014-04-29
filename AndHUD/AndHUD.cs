@@ -172,7 +172,7 @@ namespace AndroidHUD
 
 		void showProgress(Context context, int progress, string status = null, MaskType maskType = MaskType.Black, TimeSpan? timeout = null, Action clickCallback = null, Action cancelCallback = null)
 		{
-			if (timeout == null)
+			if (!timeout.HasValue || timeout == null)
 				timeout = TimeSpan.Zero;
 
 			if (CurrentDialog != null && progressWheel == null)
@@ -206,7 +206,7 @@ namespace AndroidHUD
 						return view;
 					});
 
-					if (timeout > TimeSpan.Zero)
+					if (timeout.Value > TimeSpan.Zero)
 					{
 						Task.Factory.StartNew(() => {
 							if (!waitDismiss.WaitOne (timeout.Value))

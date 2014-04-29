@@ -107,14 +107,13 @@ namespace Sample
 		void ShowProgressDemo(Action<int> action)
 		{
 			Task.Factory.StartNew (() => {
-
 				int progress = 0;
 
 				while (progress <= 100)
 				{
 					action (progress);
 
-					Thread.Sleep (500);
+					new ManualResetEvent(false).WaitOne(500);
 					progress += 10;
 				}
 
@@ -128,7 +127,7 @@ namespace Sample
 
 				action();
 
-				Thread.Sleep(3000);
+				new ManualResetEvent(false).WaitOne(3000);
 
 				AndHUD.Shared.Dismiss(this);
 			});
