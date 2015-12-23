@@ -92,8 +92,6 @@ namespace AndroidHUD
 			if (timeout == null)
 				timeout = TimeSpan.Zero;
 
-			DismissCurrent (context);
-
 			if (CurrentDialog != null && statusObj == null)
 				DismissCurrent (context);
 
