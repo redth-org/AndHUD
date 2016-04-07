@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <metadata>
+        <id>AndHUD</id>
+        <version>$version$</version>
+        <authors>Redth</authors>
+        <owners>Redth</owners>
+        <projectUrl>https://github.com/Redth/AndHUD</projectUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>AndHUD is a Progress / HUD library for Android which allows you to easily add amazing HUDs to your app!</description>
+        <summary>AndHUD is a Progress / HUD library for Android which allows you to easily add amazing HUDs to your app!</summary>
+        <tags>Xamarin, Android, Progress</tags>
+    </metadata>
+    <files>
+        <file src="AndHUD\bin\Release\AndHUD.dll" target="lib\MonoAndroid23" />
+    </files>
+</package>
