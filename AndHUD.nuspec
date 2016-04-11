@@ -12,6 +12,6 @@
         <tags>Xamarin, Android, Progress</tags>
     </metadata>
     <files>
-        <file src="AndHUD\bin\Debug\AndHUD.dll" target="lib\MonoAndroid23" />
+        <file src="lib\android\AndHUD.dll" target="lib\MonoAndroid23" />
     </files>
 </package>
