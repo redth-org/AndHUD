@@ -134,7 +134,7 @@ namespace AndroidHUD
 
 							d.Window.Attributes = p;
 						}
-							
+
 						return view;
 					});
 
@@ -163,10 +163,10 @@ namespace AndroidHUD
 			}
 		}
 
-		int DpToPx(Context context, int dp) 
+		int DpToPx(Context context, int dp)
 		{
 			var displayMetrics = context.Resources.DisplayMetrics;
-			int px = (int)Math.Round((double)dp * ((double)displayMetrics.Xdpi / (double)Android.Util.DisplayMetricsDensity.Default));       
+			int px = (int)Math.Round((double)dp * ((double)displayMetrics.Xdpi / (double)Android.Util.DisplayMetricsDensity.Default));
 			return px;
 		}
 
@@ -272,7 +272,7 @@ namespace AndroidHUD
 						Task.Factory.StartNew(() => {
 							if (!waitDismiss.WaitOne (timeout.Value))
 								DismissCurrent (context);
-			
+
 						}).ContinueWith(ct => {
 							var ex = ct.Exception;
 
@@ -313,7 +313,7 @@ namespace AndroidHUD
 
 				CurrentDialog.SetContentView (customView);
 
-				CurrentDialog.SetCancelable (cancelCallback != null);	
+				CurrentDialog.SetCancelable (cancelCallback != null);
 				if (cancelCallback != null)
 					CurrentDialog.CancelEvent += (sender, e) => cancelCallback();
 
@@ -332,10 +332,12 @@ namespace AndroidHUD
 
 					Action actionDismiss = () =>
 					{
-						CurrentDialog.Hide ();
-						CurrentDialog.Dismiss ();
-
-						statusText = null;
+						CurrentDialog?.Hide ();
+					    var activity = context as Activity;
+                        // API 17+ Also includes IsDestroyed, which we could check in addition to IsFinishing
+                        if (activity == null || !activity.IsFinishing)
+                            CurrentDialog?.Dismiss();
+                        statusText = null;
 						statusObj = null;
 						imageView = null;
 						progressWheel = null;
@@ -343,7 +345,7 @@ namespace AndroidHUD
 
 						waitDismiss.Reset ();
 					};
-						
+
 					//First try the SynchronizationContext
 					if (Application.SynchronizationContext != null)
 					{
@@ -362,7 +364,7 @@ namespace AndroidHUD
 							return;
 						}
 					}
-				
+
 					//Finally if all else fails, let's see if someone passed in a context to dismiss and it
 					// happens to also be an Activity
 					if (context != null)
