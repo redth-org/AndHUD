@@ -64,6 +64,8 @@
     <AndroidResource Include="Resources\layout\loadingprogress.axml" />
     <AndroidResource Include="Resources\layout\loadingimage.xml" />
     <AndroidResource Include="Resources\values\strings.xml" />
+    <AndroidResource Include="Resources\drawable\progressbar_custom.xml" />
+    <AndroidResource Include="Resources\values\colors.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <ItemGroup>

@@ -73,6 +73,28 @@ namespace AndroidHUD
 			}
 		}
 		
+		public partial class Color
+		{
+			
+			// aapt resource value: 0x7f040000
+			public static int abc_blue = 2130968576;
+			
+			// aapt resource value: 0x7f040002
+			public static int background_grey = 2130968578;
+			
+			// aapt resource value: 0x7f040001
+			public static int grey_five = 2130968577;
+			
+			static Color()
+			{
+				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
+			}
+			
+			private Color()
+			{
+			}
+		}
+		
 		public partial class Drawable
 		{
 			
@@ -83,10 +105,13 @@ namespace AndroidHUD
 			public static int ic_successstatus = 2130837505;
 			
 			// aapt resource value: 0x7f020002
-			public static int roundedbg = 2130837506;
+			public static int progressbar_custom = 2130837506;
 			
 			// aapt resource value: 0x7f020003
-			public static int roundedbgdark = 2130837507;
+			public static int roundedbg = 2130837507;
+			
+			// aapt resource value: 0x7f020004
+			public static int roundedbgdark = 2130837508;
 			
 			static Drawable()
 			{
@@ -101,17 +126,17 @@ namespace AndroidHUD
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f050002
-			public static int loadingImage = 2131034114;
+			// aapt resource value: 0x7f060002
+			public static int loadingImage = 2131099650;
 			
-			// aapt resource value: 0x7f050000
-			public static int loadingProgressBar = 2131034112;
+			// aapt resource value: 0x7f060000
+			public static int loadingProgressBar = 2131099648;
 			
-			// aapt resource value: 0x7f050003
-			public static int loadingProgressWheel = 2131034115;
+			// aapt resource value: 0x7f060003
+			public static int loadingProgressWheel = 2131099651;
 			
-			// aapt resource value: 0x7f050001
-			public static int textViewStatus = 2131034113;
+			// aapt resource value: 0x7f060001
+			public static int textViewStatus = 2131099649;
 			
 			static Id()
 			{
@@ -148,8 +173,8 @@ namespace AndroidHUD
 		public partial class String
 		{
 			
-			// aapt resource value: 0x7f040000
-			public static int library_name = 2130968576;
+			// aapt resource value: 0x7f050000
+			public static int library_name = 2131034112;
 			
 			static String()
 			{
