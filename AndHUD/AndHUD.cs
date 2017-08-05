@@ -49,27 +49,27 @@ namespace AndroidHUD
 
 		public void ShowSuccess(Context context, string status = null, MaskType maskType = MaskType.Black, TimeSpan? timeout = null, Action clickCallback = null, Action cancelCallback = null)
 		{
-			showImage (context, context.Resources.GetDrawable (Resource.Drawable.ic_successstatus), status, maskType, timeout, clickCallback, cancelCallback);
+			showImage (context, context.Resources.GetDrawable (Resource.Drawable.ic_successstatus,null), status, maskType, timeout, clickCallback, cancelCallback);
 		}
 
 		public void ShowError(Context context, string status = null, MaskType maskType = MaskType.Black, TimeSpan? timeout = null, Action clickCallback = null, Action cancelCallback = null)
 		{
-			showImage (context, context.Resources.GetDrawable (Resource.Drawable.ic_errorstatus), status, maskType, timeout, clickCallback, cancelCallback);
+			showImage (context, context.Resources.GetDrawable (Resource.Drawable.ic_errorstatus,null), status, maskType, timeout, clickCallback, cancelCallback);
 		}
 
 		public void ShowSuccessWithStatus(Context context, string status, MaskType maskType = MaskType.Black, TimeSpan? timeout = null, Action clickCallback = null, Action cancelCallback = null)
 		{
-			showImage (context, context.Resources.GetDrawable (Resource.Drawable.ic_successstatus), status, maskType, timeout, clickCallback, cancelCallback);
+			showImage (context, context.Resources.GetDrawable (Resource.Drawable.ic_successstatus,null), status, maskType, timeout, clickCallback, cancelCallback);
 		}
 
 		public void ShowErrorWithStatus(Context context, string status, MaskType maskType = MaskType.Black, TimeSpan? timeout = null, Action clickCallback = null, Action cancelCallback = null)
 		{
-			showImage (context, context.Resources.GetDrawable (Resource.Drawable.ic_errorstatus), status, maskType, timeout, clickCallback, cancelCallback);
+			showImage (context, context.Resources.GetDrawable (Resource.Drawable.ic_errorstatus,null), status, maskType, timeout, clickCallback, cancelCallback);
 		}
 
 		public void ShowImage(Context context, int drawableResourceId, string status = null, MaskType maskType = MaskType.Black, TimeSpan? timeout = null, Action clickCallback = null, Action cancelCallback = null)
 		{
-			showImage (context, context.Resources.GetDrawable(drawableResourceId), status, maskType, timeout, clickCallback, cancelCallback);
+			showImage (context, context.Resources.GetDrawable(drawableResourceId,null), status, maskType, timeout, clickCallback, cancelCallback);
 		}
 
 		public void ShowImage(Context context, Android.Graphics.Drawables.Drawable drawable, string status = null, MaskType maskType = MaskType.Black, TimeSpan? timeout = null, Action clickCallback = null, Action cancelCallback = null)

@@ -109,3 +109,4 @@ UpgradeLog*.XML
 
 ComponentStore/
 lib/
+/.vs
