@@ -1,17 +1,18 @@
 using System;
-using Android.App;
-using Android.Graphics;
-using Android.Views;
-using Android.Widget;
-using Android.Content;
 using System.Threading;
 using System.Threading.Tasks;
+using Android.App;
+using Android.Content;
+using Android.Graphics;
 using Android.Graphics.Drawables;
 using Android.OS;
+using Android.Util;
+using Android.Views;
+using Android.Widget;
 
 namespace AndroidHUD
 {
-	public class AndHUD
+    public class AndHUD
 	{
 		static AndHUD shared;
 
@@ -75,7 +76,7 @@ namespace AndroidHUD
 			showImage (context, GetDrawable(context, drawableResourceId), status, maskType, timeout, clickCallback, cancelCallback, prepareDialogCallback, dialogShownCallback);
 		}
 
-		public void ShowImage(Context context, Android.Graphics.Drawables.Drawable drawable, string status = null, MaskType maskType = MaskType.Black, TimeSpan? timeout = null, Action clickCallback = null, Action cancelCallback = null, Action<Dialog> prepareDialogCallback = null, Action<Dialog> dialogShownCallback = null)
+		public void ShowImage(Context context, Drawable drawable, string status = null, MaskType maskType = MaskType.Black, TimeSpan? timeout = null, Action clickCallback = null, Action cancelCallback = null, Action<Dialog> prepareDialogCallback = null, Action<Dialog> dialogShownCallback = null)
 		{
 			showImage (context, drawable, status, maskType, timeout, clickCallback, cancelCallback, prepareDialogCallback, dialogShownCallback);
 		}
@@ -167,8 +168,7 @@ namespace AndroidHUD
 		int DpToPx(Context context, int dp) 
 		{
 			var displayMetrics = context.Resources.DisplayMetrics;
-			int px = (int)Math.Round((double)dp * ((double)displayMetrics.Xdpi / (double)Android.Util.DisplayMetricsDensity.Default));       
-			return px;
+            return (int)TypedValue.ApplyDimension(ComplexUnitType.Dip, dp, displayMetrics);
 		}
 
 		void showProgress(Context context, int progress, string status = null, MaskType maskType = MaskType.Black, TimeSpan? timeout = null, Action clickCallback = null, Action cancelCallback = null, Action<Dialog> prepareDialogCallback = null, Action<Dialog> dialogShownCallback = null)
