@@ -5,6 +5,8 @@ using Android.Widget;
 using Android.Content;
 using System.Threading;
 using System.Threading.Tasks;
+using Android.Graphics.Drawables;
+using Android.OS;
 
 namespace AndroidHUD
 {
@@ -49,27 +51,27 @@ namespace AndroidHUD
 
 		public void ShowSuccess(Context context, string status = null, MaskType maskType = MaskType.Black, TimeSpan? timeout = null, Action clickCallback = null, Action cancelCallback = null)
 		{
-			showImage (context, context.Resources.GetDrawable (Resource.Drawable.ic_successstatus), status, maskType, timeout, clickCallback, cancelCallback);
+			showImage (context, GetDrawable(context, Resource.Drawable.ic_successstatus), status, maskType, timeout, clickCallback, cancelCallback);
 		}
 
 		public void ShowError(Context context, string status = null, MaskType maskType = MaskType.Black, TimeSpan? timeout = null, Action clickCallback = null, Action cancelCallback = null)
 		{
-			showImage (context, context.Resources.GetDrawable (Resource.Drawable.ic_errorstatus), status, maskType, timeout, clickCallback, cancelCallback);
+			showImage (context, GetDrawable(context, Resource.Drawable.ic_errorstatus), status, maskType, timeout, clickCallback, cancelCallback);
 		}
 
 		public void ShowSuccessWithStatus(Context context, string status, MaskType maskType = MaskType.Black, TimeSpan? timeout = null, Action clickCallback = null, Action cancelCallback = null)
 		{
-			showImage (context, context.Resources.GetDrawable (Resource.Drawable.ic_successstatus), status, maskType, timeout, clickCallback, cancelCallback);
+			showImage (context, GetDrawable(context, Resource.Drawable.ic_successstatus), status, maskType, timeout, clickCallback, cancelCallback);
 		}
 
 		public void ShowErrorWithStatus(Context context, string status, MaskType maskType = MaskType.Black, TimeSpan? timeout = null, Action clickCallback = null, Action cancelCallback = null)
 		{
-			showImage (context, context.Resources.GetDrawable (Resource.Drawable.ic_errorstatus), status, maskType, timeout, clickCallback, cancelCallback);
+			showImage (context, GetDrawable(context, Resource.Drawable.ic_errorstatus), status, maskType, timeout, clickCallback, cancelCallback);
 		}
 
 		public void ShowImage(Context context, int drawableResourceId, string status = null, MaskType maskType = MaskType.Black, TimeSpan? timeout = null, Action clickCallback = null, Action cancelCallback = null)
 		{
-			showImage (context, context.Resources.GetDrawable(drawableResourceId), status, maskType, timeout, clickCallback, cancelCallback);
+			showImage (context, GetDrawable(context, drawableResourceId), status, maskType, timeout, clickCallback, cancelCallback);
 		}
 
 		public void ShowImage(Context context, Android.Graphics.Drawables.Drawable drawable, string status = null, MaskType maskType = MaskType.Black, TimeSpan? timeout = null, Action clickCallback = null, Action cancelCallback = null)
@@ -87,7 +89,21 @@ namespace AndroidHUD
 			DismissCurrent (context);
 		}
 
-		void showStatus (Context context, bool spinner, string status = null, MaskType maskType = MaskType.Black, TimeSpan? timeout = null, Action clickCallback = null, bool centered = true, Action cancelCallback = null)
+        Drawable GetDrawable(Context context, int drawableResourceId)
+        {
+            if (Build.VERSION.SdkInt >= BuildVersionCodes.Lollipop)
+            {
+                return context.Resources.GetDrawable(drawableResourceId, context.Theme);
+            }
+            else
+            {
+#pragma warning disable CS0618 // Type or member is obsolete
+                return context.Resources.GetDrawable(drawableResourceId);
+#pragma warning restore CS0618 // Type or member is obsolete
+            }
+        }
+
+        void showStatus (Context context, bool spinner, string status = null, MaskType maskType = MaskType.Black, TimeSpan? timeout = null, Action clickCallback = null, bool centered = true, Action cancelCallback = null)
 		{
 			if (timeout == null)
 				timeout = TimeSpan.Zero;
