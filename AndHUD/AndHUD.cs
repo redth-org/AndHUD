@@ -221,7 +221,6 @@ namespace AndroidHUD
 			}
 		}
 
-
 		void showImage(Context context, Drawable image, string status = null, MaskType maskType = MaskType.Black, TimeSpan? timeout = null, Action clickCallback = null, Action cancelCallback = null)
 		{
 			if (timeout == null)
@@ -328,8 +327,11 @@ namespace AndroidHUD
 
 					Action actionDismiss = () =>
 					{
-						CurrentDialog.Hide ();
-						CurrentDialog.Dismiss ();
+                        if (CurrentDialog != null)
+                        {
+                            CurrentDialog.Hide();
+                            CurrentDialog.Dismiss();
+                        }
 
 						statusText = null;
 						statusObj = null;
@@ -340,38 +342,63 @@ namespace AndroidHUD
 						waitDismiss.Reset ();
 					};
 						
-					//First try the SynchronizationContext
+					// First try the SynchronizationContext
 					if (Application.SynchronizationContext != null)
 					{
 						Application.SynchronizationContext.Send (state => actionDismiss (), null);
 						return;
 					}
 
-					//Next let's try and get the Activity from the CurrentDialog
-					if (CurrentDialog != null && CurrentDialog.Window != null && CurrentDialog.Window.Context != null)
+                    // Otherwise try OwnerActivity on dialog
+                    var ownerActivity = CurrentDialog.OwnerActivity;
+                    if (IsAlive(ownerActivity))
+                    {
+                        ownerActivity.RunOnUiThread(actionDismiss);
+                        return;
+                    }
+
+                    // Otherwise try get it from the Window Context
+                    if (IsAlive(CurrentDialog?.Window?.Context))
 					{
-                        if (CurrentDialog.Window.Context is Activity activity)
+                        if (CurrentDialog.Window.Context is Activity windowActivity)
                         {
-                            activity.RunOnUiThread(actionDismiss);
+                            windowActivity.RunOnUiThread(actionDismiss);
                             return;
                         }
                     }
 
-                    //Finally if all else fails, let's see if someone passed in a context to dismiss and it
+                    // Finally if all else fails, let's see if someone passed in a context to dismiss and it
                     // happens to also be an Activity
-                    if (context != null)
-					{
-                        if (context is Activity activity)
-                        {
-                            activity.RunOnUiThread(actionDismiss);
-                            return;
-                        }
+                    if (context != null && context is Activity activity)
+                    {
+                        activity?.RunOnUiThread(actionDismiss);
+                        return;
                     }
-
                 }
 			}
 		}
-	}
+
+        bool IsAlive(Java.Lang.Object @object)
+        {
+            if (@object == null)
+                return false;
+
+            if (@object.Handle == IntPtr.Zero)
+                return false;
+
+            if (@object is Activity activity)
+            {
+                if (activity.IsFinishing)
+                    return false;
+
+                if (Build.VERSION.SdkInt >= BuildVersionCodes.JellyBeanMr1 && 
+                    activity.IsDestroyed)
+                    return false;
+            }
+
+            return true;
+        }
+    }
 
 	public enum MaskType
 	{
