@@ -247,7 +247,7 @@ namespace AndroidHUD
 		}
 
 
-		void showImage(Context context, Android.Graphics.Drawables.Drawable image, string status = null, MaskType maskType = MaskType.Black, TimeSpan? timeout = null, Action clickCallback = null, Action cancelCallback = null)
+		void showImage(Context context, Drawable image, string status = null, MaskType maskType = MaskType.Black, TimeSpan? timeout = null, Action clickCallback = null, Action cancelCallback = null)
 		{
 			if (timeout == null)
 				timeout = TimeSpan.Zero;
