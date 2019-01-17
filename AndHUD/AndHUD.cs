@@ -154,20 +154,8 @@ namespace AndroidHUD
 						return view;
 					});
 
-					if (timeout > TimeSpan.Zero)
-					{
-						Task.Factory.StartNew(() => {
-							if (!waitDismiss.WaitOne (timeout.Value))
-								DismissCurrent (context);
-
-						}).ContinueWith(ct => {
-							var ex = ct.Exception;
-
-							if (ex != null)
-								Android.Util.Log.Error("AndHUD", ex.ToString());
-						}, TaskContinuationOptions.OnlyOnFaulted);
-					}
-				}
+                    RunTimeout(context, timeout);
+                }
 				else
 				{
 
@@ -222,20 +210,8 @@ namespace AndroidHUD
 						return view;
 					});
 
-					if (timeout.Value > TimeSpan.Zero)
-					{
-						Task.Factory.StartNew(() => {
-							if (!waitDismiss.WaitOne (timeout.Value))
-								DismissCurrent (context);
-
-						}).ContinueWith(ct => {
-							var ex = ct.Exception;
-
-							if (ex != null)
-								Android.Util.Log.Error("AndHUD", ex.ToString());
-						}, TaskContinuationOptions.OnlyOnFaulted);
-					}
-				}
+                    RunTimeout(context, timeout);
+                }
 				else
 				{
 					Application.SynchronizationContext.Send(state => {
@@ -283,19 +259,7 @@ namespace AndroidHUD
 						return view;
 					});
 
-					if (timeout > TimeSpan.Zero)
-					{
-						Task.Factory.StartNew(() => {
-							if (!waitDismiss.WaitOne (timeout.Value))
-								DismissCurrent (context);
-			
-						}).ContinueWith(ct => {
-							var ex = ct.Exception;
-
-							if (ex != null)
-								Android.Util.Log.Error("AndHUD", ex.ToString());
-						}, TaskContinuationOptions.OnlyOnFaulted);
-					}
+                    RunTimeout(context, timeout);
 				}
 				else
 				{
@@ -307,9 +271,24 @@ namespace AndroidHUD
 			}
 		}
 
+        void RunTimeout(Context context, TimeSpan? timeout)
+        {
+            if (timeout > TimeSpan.Zero)
+            {
+                Task.Run(() => {
+                    if (!waitDismiss.WaitOne(timeout.Value))
+                        DismissCurrent(context);
 
+                }).ContinueWith(ct => {
+                    var ex = ct.Exception;
 
-		void SetupDialog(Context context, MaskType maskType, Action cancelCallback, Func<Context, Dialog, MaskType, View> customSetup)
+                    if (ex != null)
+                        Android.Util.Log.Error("AndHUD", ex.ToString());
+                }, TaskContinuationOptions.OnlyOnFaulted);
+            }
+        }
+
+        void SetupDialog(Context context, MaskType maskType, Action cancelCallback, Func<Context, Dialog, MaskType, View> customSetup)
 		{
 			Application.SynchronizationContext.Send(state => {
 
