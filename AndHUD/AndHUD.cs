@@ -1,5 +1,6 @@
 using System;
 using Android.App;
+using Android.Graphics;
 using Android.Views;
 using Android.Widget;
 using Android.Content;
@@ -292,25 +293,27 @@ namespace AndroidHUD
 		{
 			Application.SynchronizationContext.Send(state => {
 
-				CurrentDialog = new Dialog(context);
+				var dialog = new Dialog(context);
 
-				CurrentDialog.RequestWindowFeature((int)WindowFeatures.NoTitle);
+                dialog.RequestWindowFeature((int)WindowFeatures.NoTitle);
 
 				if (maskType != MaskType.Black)
-					CurrentDialog.Window.ClearFlags(WindowManagerFlags.DimBehind);
+                    dialog.Window.ClearFlags(WindowManagerFlags.DimBehind);
 
 				if (maskType == MaskType.None)
-					CurrentDialog.Window.SetFlags(WindowManagerFlags.NotTouchModal, WindowManagerFlags.NotTouchModal);
+                    dialog.Window.SetFlags(WindowManagerFlags.NotTouchModal, WindowManagerFlags.NotTouchModal);
 
-				CurrentDialog.Window.SetBackgroundDrawable(new Android.Graphics.Drawables.ColorDrawable(Android.Graphics.Color.Transparent));
+                dialog.Window.SetBackgroundDrawable(new ColorDrawable(Color.Transparent));
 
 				var customView = customSetup(context, CurrentDialog, maskType);
 
-				CurrentDialog.SetContentView (customView);
+                dialog.SetContentView (customView);
 
-				CurrentDialog.SetCancelable (cancelCallback != null);	
+                dialog.SetCancelable (cancelCallback != null);	
 				if (cancelCallback != null)
-					CurrentDialog.CancelEvent += (sender, e) => cancelCallback();
+                    dialog.CancelEvent += (sender, e) => cancelCallback();
+
+                CurrentDialog = dialog;
 
 				CurrentDialog.Show ();
 
