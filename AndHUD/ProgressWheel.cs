@@ -3,9 +3,11 @@ using Android.Views;
 using Android.Graphics;
 using Android.Util;
 using Android.Content;
+using Android.Runtime;
 
 namespace AndroidHUD
 {
+    [Register("androidhud.ProgressWheel")]
 	public class ProgressWheel : View
 	{
 		public ProgressWheel(Context context) 
