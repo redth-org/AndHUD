@@ -243,8 +243,8 @@ namespace AndroidHUD
 
 						if (maskType != MaskType.Black)
 							view.SetBackgroundResource(Resource.Drawable.roundedbgdark);
-
-						imageView.SetImageDrawable(image);
+                            
+                        imageView?.SetImageDrawable(image);
 
 						if (statusText != null)
 						{
@@ -260,7 +260,7 @@ namespace AndroidHUD
 				else
 				{
 					Application.SynchronizationContext.Send(state => {
-						imageView.SetImageDrawable(image);
+                        imageView?.SetImageDrawable(image);
 						statusText.Text = status ?? "";
 					}, null);
 				}
