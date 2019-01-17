@@ -119,9 +119,7 @@ namespace AndroidHUD
 				if (CurrentDialog == null)
 				{
 					SetupDialog (context, maskType, cancelCallback, (a, d, m) => {
-						View view;
-
-						view = LayoutInflater.From (context).Inflate (Resource.Layout.loading, null);
+						View view = LayoutInflater.From (context).Inflate (Resource.Layout.loading, null);
 
 						if (clickCallback != null)
 							view.Click += (sender, e) => clickCallback();
