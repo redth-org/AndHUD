@@ -349,29 +349,25 @@ namespace AndroidHUD
 					//Next let's try and get the Activity from the CurrentDialog
 					if (CurrentDialog != null && CurrentDialog.Window != null && CurrentDialog.Window.Context != null)
 					{
-						var activity = CurrentDialog.Window.Context as Activity;
+                        if (CurrentDialog.Window.Context is Activity activity)
+                        {
+                            activity.RunOnUiThread(actionDismiss);
+                            return;
+                        }
+                    }
 
-						if (activity != null)
-						{
-							activity.RunOnUiThread (actionDismiss);
-							return;
-						}
-					}
-				
-					//Finally if all else fails, let's see if someone passed in a context to dismiss and it
-					// happens to also be an Activity
-					if (context != null)
+                    //Finally if all else fails, let's see if someone passed in a context to dismiss and it
+                    // happens to also be an Activity
+                    if (context != null)
 					{
-						var activity = context as Activity;
+                        if (context is Activity activity)
+                        {
+                            activity.RunOnUiThread(actionDismiss);
+                            return;
+                        }
+                    }
 
-						if (activity != null)
-						{
-							activity.RunOnUiThread (actionDismiss);
-							return;
-						}
-					}
-
-				}
+                }
 			}
 		}
 	}
