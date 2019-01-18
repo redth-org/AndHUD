@@ -46,7 +46,7 @@
     <Compile Include="AndHUD.cs" />
     <Compile Include="ProgressWheel.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
-    <Compile Include="AssemblyVersion.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="XHUD.cs" />
   </ItemGroup>
   <ItemGroup>
