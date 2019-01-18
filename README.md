@@ -50,6 +50,18 @@ AndHUD.Shared.ShowToast(this, "Click this toast to close it!", MaskType.Clear, n
 
 Changes
 -------
+v1.4
+  - Added `prepareDialogCallback` which is called right after the Dialog has been created. This can be used to customize the Dialog further.
+  - Added `dialogShownCallback` to get notified when the Dialog has appeared on the screen.
+  - Updated Target Framework to Android Oreo 8.1
+  - A plethora of bug fixes
+    - Fixed Null Ref when trying to update progress wheel
+    - Fixed Null Ref when trying to set an image on the HUD
+    - Removed duplicate Dismiss call from `showStatus`
+    - Prevent exceptions when trying to show/close hud, when Activity is dead or in background
+    - Remove obsolete call to GetDrawable 
+    - Fixed MaskType conversion from XHUD to AndHUD
+
 v1.3
  
   - Added cancelCallback parameter to allow dialogs to be cancellable
