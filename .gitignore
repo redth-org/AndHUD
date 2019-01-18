@@ -111,3 +111,6 @@ ComponentStore/
 lib/
 
 .vs/
+
+tools/*
+!tools/packages.config
