@@ -50,6 +50,10 @@ AndHUD.Shared.ShowToast(this, "Click this toast to close it!", MaskType.Clear, n
 
 Changes
 -------
+v1.4.1
+  - Fixed `NullReferenceException` when showing non-centered toast [#38](https://github.com/Redth/AndHUD/issues/38)
+  - Added new sample App
+
 v1.4
   - Added `prepareDialogCallback` which is called right after the Dialog has been created. This can be used to customize the Dialog further.
   - Added `dialogShownCallback` to get notified when the Dialog has appeared on the screen.
