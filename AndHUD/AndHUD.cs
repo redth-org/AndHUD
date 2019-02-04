@@ -300,7 +300,7 @@ namespace AndroidHUD
 
                 dialog.Window.SetBackgroundDrawable(new ColorDrawable(Color.Transparent));
 
-				var customView = customSetup(context, CurrentDialog, maskType);
+				var customView = customSetup(context, dialog, maskType);
 
                 dialog.SetContentView (customView);
 
