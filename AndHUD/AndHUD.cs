@@ -300,7 +300,10 @@ namespace AndroidHUD
 
                 dialog.Window.SetBackgroundDrawable(new ColorDrawable(Color.Transparent));
 
-				var customView = customSetup(context, dialog, maskType);
+                //Fix for immersive mode
+                dialog.Window.SetFlags(WindowManagerFlags.NotFocusable, WindowManagerFlags.NotFocusable);
+
+                var customView = customSetup(context, dialog, maskType);
 
                 dialog.SetContentView (customView);
 
