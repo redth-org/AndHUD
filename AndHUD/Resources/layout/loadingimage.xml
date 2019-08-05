@@ -1,25 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:clickable="true"
     android:background="@drawable/roundedbg"
+    android:clickable="true"
     android:padding="16dp">
     <ImageView
         android:id="@+id/loadingImage"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_gravity="center_horizontal|center_vertical"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
         android:scaleType="centerInside"
-        android:adjustViewBounds="true" />
+        android:adjustViewBounds="true"
+        tools:src="@drawable/ic_errorstatus" />
     <TextView
+        android:id="@+id/textViewStatus"
         android:text="Loading..."
-        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:layout_below="@id/loadingImage"
+        android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/textViewStatus"
-        android:gravity="center_horizontal"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:gravity="center"
+        android:textAlignment="gravity"
         android:textColor="@android:color/white"
-        android:layout_gravity="center_horizontal" />
-</LinearLayout>
+        tools:text="A quick brown fox\nbla bla bla" />
+</RelativeLayout>
