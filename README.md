@@ -50,6 +50,9 @@ AndHUD.Shared.ShowToast(this, "Click this toast to close it!", MaskType.Clear, n
 
 Changes
 -------
+v1.4.2
+  - Fixed text not being centered correctly
+
 v1.4.1
   - Fixed `NullReferenceException` when showing non-centered toast [#38](https://github.com/Redth/AndHUD/issues/38)
   - Added new sample App
