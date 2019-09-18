@@ -1,75 +1,17 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project Sdk="MSBuild.Sdk.Extras">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{021AA4E4-9082-411F-9F4B-90AF672CA6EF}</ProjectGuid>
-    <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <OutputType>Library</OutputType>
-    <RootNamespace>AndroidHUD</RootNamespace>
-    <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
-    <AndroidResgenClass>Resource</AndroidResgenClass>
-    <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
-    <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
+    <TargetFrameworks>monoandroid90</TargetFrameworks>
     <AssemblyName>AndHUD</AssemblyName>
-    <TargetFrameworkVersion>v8.1</TargetFrameworkVersion>
+    <RootNamespace>AndroidHUD</RootNamespace>
+    <PackageId>AndHUD</PackageId>
+    <Description>AndHUD is a Progress / HUD library for Android which allows you to easily add amazing HUDs to your app!</Description>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>..\lib\android</OutputPath>
-    <DefineConstants>DEBUG;</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <AndroidLinkMode>None</AndroidLinkMode>
-    <ConsolePause>false</ConsolePause>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>full</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>..\lib\android</OutputPath>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
-    <ConsolePause>false</ConsolePause>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Core" />
-    <Reference Include="Mono.Android" />
+    <None Include="..\LICENSE" Pack="true" PackagePath=""/>
+	<AndroidResource Include="Resources\**\*.xml" />
+	<AndroidResource Include="Resources\**\*.axml" />
+	<AndroidResource Include="Resources\**\*.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="AndHUD.cs" />
-    <Compile Include="ProgressWheel.cs" />
-    <Compile Include="Resources\Resource.designer.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="XHUD.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\values\attrs.xml" />
-    <AndroidResource Include="Resources\drawable-hdpi\ic_errorstatus.png" />
-    <AndroidResource Include="Resources\drawable-hdpi\ic_successstatus.png" />
-    <AndroidResource Include="Resources\drawable-mdpi\ic_errorstatus.png" />
-    <AndroidResource Include="Resources\drawable-mdpi\ic_successstatus.png" />
-    <AndroidResource Include="Resources\drawable-xhdpi\ic_errorstatus.png" />
-    <AndroidResource Include="Resources\drawable-xhdpi\ic_successstatus.png" />
-    <AndroidResource Include="Resources\drawable\roundedbg.xml" />
-    <AndroidResource Include="Resources\drawable\roundedbgdark.xml" />
-    <AndroidResource Include="Resources\layout\loading.axml" />
-    <AndroidResource Include="Resources\layout\loadingprogress.axml" />
-    <AndroidResource Include="Resources\layout\loadingimage.xml" />
-    <AndroidResource Include="Resources\values\strings.xml" />
-  </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
-  <ItemGroup>
-    <Folder Include="Resources\drawable\" />
-    <Folder Include="Resources\drawable-hdpi\" />
-    <Folder Include="Resources\drawable-mdpi\" />
-    <Folder Include="Resources\drawable-xhdpi\" />
-    <Folder Include="Resources\layout\" />
-  </ItemGroup>
+  
 </Project>
