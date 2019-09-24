@@ -5,6 +5,8 @@
 var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
 var sln = new FilePath("./AndHUD.sln");
+var artifactsDir = new DirectoryPath("./artifacts");
+var gitVersionLog = new FilePath("./gitversion.log");
 
 var isRunningOnAppVeyor = AppVeyor.IsRunningOnAppVeyor;
 GitVersion versionInfo = null;
@@ -14,7 +16,8 @@ Setup(context =>
    versionInfo = context.GitVersion(new GitVersionSettings 
    {
       UpdateAssemblyInfo = true,
-      OutputType = GitVersionOutput.Json
+      OutputType = GitVersionOutput.Json,
+      LogFilePath = gitVersionLog.MakeAbsolute(context.Environment)
    });
 
    if (isRunningOnAppVeyor)
@@ -40,6 +43,8 @@ Task("Clean")
    CleanDirectories("./AndHUD/bin");
    CleanDirectories("./AndHUD/obj");
    CleanDirectories("./lib");
+
+   EnsureDirectoryExists(artifactsDir);
 });
 
 FilePath msBuildPath;
@@ -87,16 +92,17 @@ Task("Build")
    MSBuild(sln, settings);
 });
 
-Task("CopyPackage")
+Task("CopyArtifacts")
    .IsDependentOn("Build")
    .Does(() => 
 {
    var nugetFiles = GetFiles("AndHUD/bin/" + configuration + "/**/*.nupkg");
-   CopyFiles(nugetFiles, "./");
+   CopyFiles(nugetFiles, artifactsDir);
+   CopyFileToDirectory(gitVersionLog, artifactsDir);
 });
 
 Task("Default")
-   .IsDependentOn("CopyPackage");
+   .IsDependentOn("CopyArtifacts");
 
 RunTarget(target);
 
