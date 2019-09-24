@@ -1,6 +1,6 @@
-#tool nuget:?package=GitVersion.CommandLine
-#tool nuget:?package=vswhere
-#addin nuget:?package=Cake.Figlet
+#tool nuget:?package=GitVersion.CommandLine&version=5.0.1
+#tool nuget:?package=vswhere&version=2.7.1
+#addin nuget:?package=Cake.Figlet&version=1.3.1
 
 var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
@@ -56,7 +56,7 @@ Task("ResolveBuildTools")
    var vsLatest = VSWhereLatest(vsWhereSettings);
    msBuildPath = (vsLatest == null)
       ? null
-      : vsLatest.CombineWithFilePath("./MSBuild/15.0/Bin/MSBuild.exe");
+      : vsLatest.CombineWithFilePath("./MSBuild/Current/Bin/MSBuild.exe");
 
    if (msBuildPath != null)
       Information("Found MSBuild at {0}", msBuildPath.ToString());
@@ -78,26 +78,25 @@ Task("Build")
    .Does(() =>  {
 
    var settings = GetDefaultBuildSettings()
+      .WithProperty("Version", versionInfo.SemVer)
+      .WithProperty("PackageVersion", versionInfo.SemVer)
+      .WithProperty("InformationalVersion", versionInfo.InformationalVersion)
+      .WithProperty("NoPackageAnalysis", "True")
       .WithTarget("Build");
 
    MSBuild(sln, settings);
 });
 
-Task("Pack")
+Task("CopyPackage")
    .IsDependentOn("Build")
    .Does(() => 
 {
-   var settings = new NuGetPackSettings
-   {
-      Version = versionInfo.NuGetVersionV2,
-      OutputDirectory = "./"
-   };
-
-   NuGetPack("./AndHUD.nuspec", settings);
+   var nugetFiles = GetFiles("AndHUD/bin/" + configuration + "/**/*.nupkg");
+   CopyFiles(nugetFiles, "./");
 });
 
 Task("Default")
-   .IsDependentOn("Pack");
+   .IsDependentOn("CopyPackage");
 
 RunTarget(target);
 
@@ -107,7 +106,7 @@ MSBuildSettings GetDefaultBuildSettings()
    {
       Configuration = configuration,
       ArgumentCustomization = args => args.Append("/m"),
-      ToolVersion = MSBuildToolVersion.VS2017
+      ToolVersion = MSBuildToolVersion.VS2019
    };
 
    if (msBuildPath != null)
