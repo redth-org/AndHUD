@@ -89,6 +89,13 @@ Task("Build")
       .WithProperty("NoPackageAnalysis", "True")
       .WithTarget("Build");
 
+   if (IsRunningOnWindows())
+   {
+      var javaSdkDir = EnvironmentVariable("JAVA_HOME_8_X64");
+      Information("Setting JavaSdkDirectory to: " + javaSdkDir);
+      settings = settings.WithProperty("JavaSdkDirectory", javaSdkDir);
+   }
+
    MSBuild(sln, settings);
 });
 
