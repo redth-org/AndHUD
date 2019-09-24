@@ -1,3 +1,5 @@
+name: Release NuGet
+
 on:
   release
     types: [published]
@@ -20,6 +22,6 @@ jobs:
         
     - name: Publish NuGet Package
       env:
-        NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
-      run: dotnet nuget push **/*.nupkg -k ${NUGET_API_KEY}
+        API_KEY: ${{ secrets.NUGET_API_KEY }}
+      run: dotnet nuget push **/*.nupkg -k ${API_KEY}
       
