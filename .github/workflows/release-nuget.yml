@@ -12,7 +12,7 @@ jobs:
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
-        version: 3.0.100
+        dotnet-version: '3.0.100'
     
     - name: Download Artifacts
       uses: actions/download-artifact@master
