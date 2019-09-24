@@ -1,0 +1,20 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: windows-latest
+    
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: Build Project
+      run: ./build.ps1
+      shell: powershell
+      
+    - uses: actions/upload-artifact@master
+      with:
+        name: Nuget Package
+        path: artifacts
