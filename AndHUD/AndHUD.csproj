@@ -1,6 +1,6 @@
 ﻿<Project Sdk="MSBuild.Sdk.Extras">
   <PropertyGroup>
-    <TargetFrameworks>monoandroid90</TargetFrameworks>
+    <TargetFrameworks>monoandroid81</TargetFrameworks>
     <AssemblyName>AndHUD</AssemblyName>
     <RootNamespace>AndroidHUD</RootNamespace>
     <PackageId>AndHUD</PackageId>
