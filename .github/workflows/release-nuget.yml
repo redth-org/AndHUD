@@ -1,7 +1,7 @@
 name: Release NuGet
 
 on:
-  release
+  release:
     types: [published]
 
 jobs:
