@@ -1,8 +1,14 @@
+on:
+  release
+    types: [published]
+
 jobs:
   build:
     runs-on: windows-latest
 
     steps:
+    - env:
+      NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
     - name: Setup .NET Core
         uses: actions/setup-dotnet@v1
         with:
@@ -15,5 +21,5 @@ jobs:
         path: ./
         
     - name: Publish NuGet Package
-        run: dotnet nuget push **/*.nupkg -k ${{ secrets.NUGET_API_KEY }}
+        run: dotnet nuget push **/*.nupkg -k $NUGET_API_KEY
      
