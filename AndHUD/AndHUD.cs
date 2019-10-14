@@ -107,6 +107,9 @@ namespace AndroidHUD
 
         void showStatus (Context context, bool spinner, string status = null, MaskType maskType = MaskType.Black, TimeSpan? timeout = null, Action clickCallback = null, bool centered = true, Action cancelCallback = null, Action<Dialog> prepareDialogCallback = null, Action<Dialog> dialogShownCallback = null)
 		{
+            if (context == null)
+                throw new ArgumentNullException(nameof(context));
+
 			if (timeout == null)
 				timeout = TimeSpan.Zero;
 
