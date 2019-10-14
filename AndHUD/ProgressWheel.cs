@@ -148,16 +148,6 @@ namespace AndroidHUD
 
 		void SetupBounds() 
 		{
-			WheelPaddingTop = this.WheelPaddingTop;
-			WheelPaddingBottom = this.WheelPaddingBottom;
-			WheelPaddingLeft = this.WheelPaddingLeft;
-			WheelPaddingRight = this.WheelPaddingRight;
-
-//			rectBounds = new RectF(WheelPaddingLeft,
-//			                       WheelPaddingTop,
-//			                       this.LayoutParameters.Width - WheelPaddingRight,
-//			                       this.LayoutParameters.Height - WheelPaddingBottom);
-//
 			circleBounds = new RectF(WheelPaddingLeft + BarWidth,
 			                         WheelPaddingTop + BarWidth,
 			                         this.LayoutParameters.Width - WheelPaddingRight - BarWidth,
