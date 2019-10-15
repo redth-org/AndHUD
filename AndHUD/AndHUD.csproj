@@ -5,6 +5,9 @@
     <RootNamespace>AndroidHUD</RootNamespace>
     <PackageId>AndHUD</PackageId>
     <Description>AndHUD is a Progress / HUD library for Android which allows you to easily add amazing HUDs to your app!</Description>
+
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,5 +16,5 @@
     <AndroidResource Include="Resources\**\*.axml" />
     <AndroidResource Include="Resources\**\*.png" />
   </ItemGroup>
-  
+
 </Project>
