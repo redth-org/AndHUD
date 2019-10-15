@@ -13,7 +13,8 @@ namespace SampleApp
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme.NoActionBar", MainLauncher = true)]
     public class MainActivity : AppCompatActivity
     {
-        private string[] _demos = new string[] {
+        private string[] _demos = new string[]
+        {
             "Status Indicator Only",
             "Status Indicator and Text",
             "Non-Modal Indicator and Text",
@@ -34,6 +35,7 @@ namespace SampleApp
 
         private ListView _listView;
 
+        /// <inheritdoc/>
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -49,6 +51,7 @@ namespace SampleApp
             _listView.ItemClick += OnItemClick;
         }
 
+        /// <inheritdoc/>
         protected override void OnDestroy()
         {
             if (_listView != null)
@@ -81,16 +84,16 @@ namespace SampleApp
                     ShowProgressDemo(progress => AndHUD.Shared.Show(this, "Loading... " + progress + "%", progress, MaskType.Clear));
                     break;
                 case "Success Image Only":
-                    AndHUD.Shared.ShowSuccessWithStatus(this, null, MaskType.Black, TimeSpan.FromSeconds(3));
+                    AndHUD.Shared.ShowSuccess(this, null, MaskType.Black, TimeSpan.FromSeconds(3));
                     break;
                 case "Success Image and Text":
-                    AndHUD.Shared.ShowSuccessWithStatus(this, "It Worked!", MaskType.Clear, TimeSpan.FromSeconds(3));
+                    AndHUD.Shared.ShowSuccess(this, "It Worked!", MaskType.Clear, TimeSpan.FromSeconds(3));
                     break;
                 case "Error Image Only":
-                    AndHUD.Shared.ShowErrorWithStatus(this, null, MaskType.Clear, TimeSpan.FromSeconds(3));
+                    AndHUD.Shared.ShowError(this, null, MaskType.Clear, TimeSpan.FromSeconds(3));
                     break;
                 case "Error Image and Text":
-                    AndHUD.Shared.ShowErrorWithStatus(this, "It no worked :(", MaskType.Black, TimeSpan.FromSeconds(3));
+                    AndHUD.Shared.ShowError(this, "It no worked :(", MaskType.Black, TimeSpan.FromSeconds(3));
                     break;
                 case "Toast":
                     AndHUD.Shared.ShowToast(this, "This is a toast... Cheers!", MaskType.Black, TimeSpan.FromSeconds(3), true);
@@ -118,7 +121,8 @@ namespace SampleApp
 
         private void ShowProgressDemo(Action<int> action)
         {
-            Task.Run(() => {
+            _ = Task.Run(() =>
+            {
                 int progress = 0;
 
                 while (progress <= 100)
@@ -135,8 +139,8 @@ namespace SampleApp
 
         private void ShowDemo(Action action)
         {
-            Task.Run(() => {
-
+            _ = Task.Run(() =>
+            {
                 action();
 
                 new ManualResetEvent(false).WaitOne(3000);

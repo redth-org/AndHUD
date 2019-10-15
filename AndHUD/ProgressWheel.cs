@@ -1,15 +1,36 @@
-using System;
-using Android.Views;
-using Android.Graphics;
-using Android.Util;
+﻿using System;
 using Android.Content;
+using Android.Graphics;
 using Android.Runtime;
+using Android.Util;
+using Android.Views;
+using AndroidHUD.Extensions;
 
 namespace AndroidHUD
 {
+    /// <summary>
+    /// Progress Wheel View for showing circular progress.
+    /// </summary>
     [Register("androidhud.ProgressWheel")]
     public class ProgressWheel : View
     {
+        // Sizes (with defaults)
+        private int _fullRadius = 100;
+
+        // Paints
+        private Paint _barPaint = new Paint();
+        private Paint _circlePaint = new Paint();
+        private Paint _rimPaint = new Paint();
+        private Paint _textPaint = new Paint();
+
+        // Rectangles
+        private RectF _circleBounds = new RectF();
+
+        private int _progress = 0;
+        private SpinHandler _spinHandler;
+
+        private Android.OS.BuildVersionCodes _version = Android.OS.Build.VERSION.SdkInt;
+
         public ProgressWheel(Context context)
             : this(context, null, 0)
         {
@@ -20,7 +41,8 @@ namespace AndroidHUD
         {
         }
 
-        public ProgressWheel(Context context, IAttributeSet attrs, int defStyle) : base(context, attrs, defStyle)
+        public ProgressWheel(Context context, IAttributeSet attrs, int defStyle)
+            : base(context, attrs, defStyle)
         {
             CircleRadius = 80;
             BarLength = 60;
@@ -43,62 +65,138 @@ namespace AndroidHUD
             // Animation
             // The amount of pixels to move the bar by on each draw
             SpinSpeed = 2;
+
             // The number of milliseconds to wait inbetween each draw
             DelayMillis = 0;
 
-            spinHandler = new SpinHandler(msg => {
+            _spinHandler = new SpinHandler(msg =>
+            {
                 Invalidate();
 
-                if (isSpinning)
+                if (IsSpinning)
                 {
-                    progress += SpinSpeed;
-                    if (progress > 360)
+                    _progress += SpinSpeed;
+                    if (_progress > 360)
                     {
-                        progress = 0;
+                        _progress = 0;
                     }
 
-                    spinHandler.SendEmptyMessageDelayed(0, DelayMillis);
+                    _spinHandler.SendEmptyMessageDelayed(0, DelayMillis);
                 }
             });
         }
 
         public int CircleRadius { get; set; }
+
         public int BarLength { get; set; }
+
         public int BarWidth { get; set; }
+
         public int TextSize { get; set; }
+
         public int WheelPaddingTop { get; set; }
+
         public int WheelPaddingBottom { get; set; }
+
         public int WheelPaddingLeft { get; set; }
+
         public int WheelPaddingRight { get; set; }
+
         public Color BarColor { get; set; }
+
         public Color CircleColor { get; set; }
+
         public Color RimColor { get; set; }
-        public Shader RimShader { get { return rimPaint.Shader; } set { rimPaint.SetShader(value); } }
+
+        public Shader RimShader
+        {
+            get => _rimPaint.Shader;
+            set => _rimPaint.SetShader(value);
+        }
+
         public Color TextColor { get; set; }
+
         public int SpinSpeed { get; set; }
+
         public int RimWidth { get; set; }
+
         public int DelayMillis { get; set; }
 
-        public bool IsSpinning { get { return isSpinning; } }
+        public bool IsSpinning { get; private set; }
 
-        // Sizes (with defaults)
-        private int fullRadius = 100;
+        /// <summary>
+        /// Reset progress to 0.
+        /// </summary>
+        public void ResetCount()
+        {
+            _progress = 0;
 
-        // Paints
-        private Paint barPaint = new Paint();
-        private Paint circlePaint = new Paint();
-        private Paint rimPaint = new Paint();
-        private Paint textPaint = new Paint();
+            // Text = "0%";
+            Invalidate();
+        }
 
-        // Rectangles
-        private RectF circleBounds = new RectF();
+        /// <summary>
+        /// Stop spinning animation.
+        /// </summary>
+        public void StopSpinning()
+        {
+            IsSpinning = false;
+            _progress = 0;
+            _spinHandler.RemoveMessages(0);
+        }
 
-        private int progress = 0;
-        private bool isSpinning = false;
-        private SpinHandler spinHandler;
+        /// <summary>
+        /// Start spinning animation.
+        /// </summary>
+        public void Spin()
+        {
+            IsSpinning = true;
+            _spinHandler.SendEmptyMessage(0);
+        }
 
-        private Android.OS.BuildVersionCodes version = Android.OS.Build.VERSION.SdkInt;
+        /// <summary>
+        /// Increment progress by 1.
+        /// </summary>
+        public void IncrementProgress()
+        {
+            IsSpinning = false;
+            _progress++;
+            _spinHandler.SendEmptyMessage(0);
+        }
 
+        /// <summary>
+        /// Set progress.
+        /// </summary>
+        /// <param name="amount">Amount to increase progress.</param>
+        public void SetProgress(int amount)
+        {
+            IsSpinning = false;
+            var newProgress = (int)((float)amount / 100 * 360);
+
+            if (_version >= Android.OS.BuildVersionCodes.Honeycomb)
+            {
+                var va =
+                    (Android.Animation.ValueAnimator)Android.Animation.ValueAnimator.OfInt(_progress, newProgress).SetDuration(250);
+
+                va.Update += (sender, e) =>
+                {
+                    _progress = (int)e.Animation.AnimatedValue;
+
+                    Invalidate();
+                };
+
+                va.Start();
+            }
+            else
+            {
+                _progress = newProgress;
+                Invalidate();
+            }
+
+            _spinHandler.SendEmptyMessage(0);
+        }
+
+        /// <inheritdoc/>
         protected override void OnAttachedToWindow()
         {
             base.OnAttachedToWindow();
@@ -109,122 +207,79 @@ namespace AndroidHUD
             Invalidate();
         }
 
-        void SetupPaints()
-        {
-            barPaint.Color = BarColor;
-            barPaint.AntiAlias = true;
-            barPaint.SetStyle(Paint.Style.Stroke);
-            barPaint.StrokeWidth = BarWidth;
-
-            rimPaint.Color = RimColor;
-            rimPaint.AntiAlias = true;
-            rimPaint.SetStyle(Paint.Style.Stroke);
-            rimPaint.StrokeWidth = RimWidth;
-
-            circlePaint.Color = CircleColor;
-            circlePaint.AntiAlias = true;
-            circlePaint.SetStyle(Paint.Style.Fill);
-
-            textPaint.Color = TextColor;
-            textPaint.SetStyle(Paint.Style.Fill);
-            textPaint.AntiAlias = true;
-            textPaint.TextSize = TextSize;
-        }
-
-        void SetupBounds()
-        {
-            circleBounds =
-                new RectF(WheelPaddingLeft + BarWidth,
-                    WheelPaddingTop + BarWidth,
-                    this.LayoutParameters.Width - WheelPaddingRight - BarWidth,
-                    this.LayoutParameters.Height - WheelPaddingBottom - BarWidth);
-
-            fullRadius = (this.LayoutParameters.Width - WheelPaddingRight - BarWidth)/2;
-            CircleRadius = (fullRadius - BarWidth) + 1;
-        }
-
         // ----------------------------------
         // Animation stuff
         // ----------------------------------
+
+        /// <inheritdoc/>
         protected override void OnDraw(Canvas canvas)
         {
             base.OnDraw(canvas);
 
+            if (!canvas.IsAlive())
+            {
+                return;
+            }
+
             // Draw the rim
-            canvas.DrawArc(circleBounds, 360, 360, false, rimPaint);
+            canvas.DrawArc(_circleBounds, 360, 360, false, _rimPaint);
 
             // Draw the bar
-            if (isSpinning)
-                canvas.DrawArc(circleBounds, progress - 90, BarLength, false, barPaint);
+            if (IsSpinning)
+            {
+                canvas.DrawArc(_circleBounds, _progress - 90, BarLength, false, _barPaint);
+            }
             else
-                canvas.DrawArc(circleBounds, -90, progress, false, barPaint);
+            {
+                canvas.DrawArc(_circleBounds, -90, _progress, false, _barPaint);
+            }
 
             // Draw the inner circle
             canvas.DrawCircle(
-                (circleBounds.Width() / 2) + RimWidth + WheelPaddingLeft,
-                (circleBounds.Height() / 2) + RimWidth + WheelPaddingTop,
+                (_circleBounds.Width() / 2) + RimWidth + WheelPaddingLeft,
+                (_circleBounds.Height() / 2) + RimWidth + WheelPaddingTop,
                 CircleRadius,
-                circlePaint);
+                _circlePaint);
         }
 
-        public void ResetCount()
+        private void SetupPaints()
         {
-            progress = 0;
-            // Text = "0%";
-            Invalidate();
+            _barPaint.Color = BarColor;
+            _barPaint.AntiAlias = true;
+            _barPaint.SetStyle(Paint.Style.Stroke);
+            _barPaint.StrokeWidth = BarWidth;
+
+            _rimPaint.Color = RimColor;
+            _rimPaint.AntiAlias = true;
+            _rimPaint.SetStyle(Paint.Style.Stroke);
+            _rimPaint.StrokeWidth = RimWidth;
+
+            _circlePaint.Color = CircleColor;
+            _circlePaint.AntiAlias = true;
+            _circlePaint.SetStyle(Paint.Style.Fill);
+
+            _textPaint.Color = TextColor;
+            _textPaint.SetStyle(Paint.Style.Fill);
+            _textPaint.AntiAlias = true;
+            _textPaint.TextSize = TextSize;
         }
 
-        public void StopSpinning()
+        private void SetupBounds()
         {
-            isSpinning = false;
-            progress = 0;
-            spinHandler.RemoveMessages(0);
-        }
+            _circleBounds =
+                new RectF(
+                    WheelPaddingLeft + BarWidth,
+                    WheelPaddingTop + BarWidth,
+                    LayoutParameters.Width - WheelPaddingRight - BarWidth,
+                    LayoutParameters.Height - WheelPaddingBottom - BarWidth);
 
-        public void Spin()
-        {
-            isSpinning = true;
-            spinHandler.SendEmptyMessage(0);
-        }
-
-        public void IncrementProgress()
-        {
-            isSpinning = false;
-            progress++;
-            spinHandler.SendEmptyMessage(0);
-        }
-
-        public void SetProgress(int i) {
-            isSpinning = false;
-            var newProgress = (int)((float)i / (float)100 * (float)360);
-
-            if (version >= Android.OS.BuildVersionCodes.Honeycomb)
-            {
-                Android.Animation.ValueAnimator va =
-                    (Android.Animation.ValueAnimator)Android.Animation.ValueAnimator.OfInt(progress, newProgress).SetDuration(250);
-
-                va.Update += (sender, e) => {
-                    var interimValue = (int)e.Animation.AnimatedValue;
-
-                    progress = interimValue;
-
-                    Invalidate();
-                };
-
-                va.Start();
-            }
-            else
-            {
-                progress = newProgress;
-                Invalidate();
-            }
-
-            spinHandler.SendEmptyMessage(0);
+            _fullRadius = (LayoutParameters.Width - WheelPaddingRight - BarWidth) / 2;
+            CircleRadius = (_fullRadius - BarWidth) + 1;
         }
 
         private class SpinHandler : Android.OS.Handler
         {
-            public SpinHandler(Action<Android.OS.Message> msgAction) : base()
+            public SpinHandler(Action<Android.OS.Message> msgAction)
             {
                 MessageAction = msgAction;
             }
