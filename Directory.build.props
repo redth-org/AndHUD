@@ -2,15 +2,15 @@
   <PropertyGroup>
     <Copyright>Copyright (c) Redth</Copyright>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/Redth/AndHUD</PackageProjectUrl>
-    <PackageIconUrl>https://raw.githubusercontent.com/Redth/AndHUD/develop/icon.png</PackageIconUrl>
+    <PackageProjectUrl>https://github.com/redth-org/AndHUD</PackageProjectUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/redth-orgAndHUD/develop/icon.png</PackageIconUrl>
     <Authors>Redth</Authors>
     <Owners>Redth</Owners>
     <PackageTags>Xamarin, Android, Progress, AndHUD, AndroidHUD</PackageTags>
-    <PackageReleaseNotes>https://github.com/Redth/AndHUD/releases</PackageReleaseNotes>
+    <PackageReleaseNotes>https://github.com/redth-org/AndHUD/releases</PackageReleaseNotes>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
 
-    <RepositoryUrl>https://github.com/Redth/AndHUD</RepositoryUrl>
+    <RepositoryUrl>https://github.com/redth-org/AndHUD</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <Product>$(AssemblyName) ($(TargetFramework))</Product>
     <NeutralLanguage>en</NeutralLanguage>
