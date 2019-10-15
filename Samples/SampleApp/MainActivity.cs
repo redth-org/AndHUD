@@ -13,7 +13,7 @@ namespace SampleApp
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme.NoActionBar", MainLauncher = true)]
     public class MainActivity : AppCompatActivity
     {
-        string[] _demos = new string[] {
+        private string[] _demos = new string[] {
             "Status Indicator Only",
             "Status Indicator and Text",
             "Non-Modal Indicator and Text",
@@ -52,7 +52,9 @@ namespace SampleApp
         protected override void OnDestroy()
         {
             if (_listView != null)
+            {
                 _listView.ItemClick -= OnItemClick;
+            }
 
             base.OnDestroy();
         }
@@ -114,7 +116,7 @@ namespace SampleApp
             }
         }
 
-        void ShowProgressDemo(Action<int> action)
+        private void ShowProgressDemo(Action<int> action)
         {
             Task.Run(() => {
                 int progress = 0;
@@ -131,7 +133,7 @@ namespace SampleApp
             });
         }
 
-        void ShowDemo(Action action)
+        private void ShowDemo(Action action)
         {
             Task.Run(() => {
 
@@ -144,4 +146,3 @@ namespace SampleApp
         }
     }
 }
-

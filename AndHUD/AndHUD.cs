@@ -27,23 +27,22 @@ namespace AndroidHUD
             }
         }
 
-        public AndHUD()
+        protected AndHUD()
         {
         }
 
-        ManualResetEvent waitDismiss = new ManualResetEvent(false);
+        private ManualResetEvent waitDismiss = new ManualResetEvent(false);
         public Dialog CurrentDialog { get; private set; }
 
-        ProgressWheel progressWheel = null;
-        TextView statusText = null;
-        ImageView imageView = null;
+        private ProgressWheel progressWheel = null;
+        private TextView statusText = null;
+        private ImageView imageView = null;
 
-        object statusObj = null;
+        private object statusObj = null;
 
-        readonly object dialogLock = new object();
+        private readonly object dialogLock = new object();
 
-
-        public void Show (Context context, string status = null, int progress = -1, MaskType maskType = MaskType.Black, TimeSpan? timeout = null, Action clickCallback = null, bool centered = true, Action cancelCallback = null, Action<Dialog> prepareDialogCallback = null, Action<Dialog> dialogShownCallback = null)
+        public void Show(Context context, string status = null, int progress = -1, MaskType maskType = MaskType.Black, TimeSpan? timeout = null, Action clickCallback = null, bool centered = true, Action cancelCallback = null, Action<Dialog> prepareDialogCallback = null, Action<Dialog> dialogShownCallback = null)
         {
             if (progress >= 0)
                 showProgress(context, progress, status, maskType, timeout, clickCallback, cancelCallback, prepareDialogCallback, dialogShownCallback);
@@ -91,7 +90,7 @@ namespace AndroidHUD
             DismissCurrent(context);
         }
 
-        Drawable GetDrawable(Context context, int drawableResourceId)
+        private Drawable GetDrawable(Context context, int drawableResourceId)
         {
             if (Build.VERSION.SdkInt >= BuildVersionCodes.Lollipop)
             {
@@ -105,7 +104,7 @@ namespace AndroidHUD
             }
         }
 
-        void showStatus (Context context, bool spinner, string status = null, MaskType maskType = MaskType.Black, TimeSpan? timeout = null, Action clickCallback = null, bool centered = true, Action cancelCallback = null, Action<Dialog> prepareDialogCallback = null, Action<Dialog> dialogShownCallback = null)
+        private void showStatus(Context context, bool spinner, string status = null, MaskType maskType = MaskType.Black, TimeSpan? timeout = null, Action clickCallback = null, bool centered = true, Action cancelCallback = null, Action<Dialog> prepareDialogCallback = null, Action<Dialog> dialogShownCallback = null)
         {
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
@@ -144,10 +143,10 @@ namespace AndroidHUD
 
                         if (!centered)
                         {
-                            d.Window.SetGravity (GravityFlags.Bottom);
+                            d.Window.SetGravity(GravityFlags.Bottom);
                             var p = d.Window.Attributes;
 
-                            p.Y = DpToPx (context, 22);
+                            p.Y = DpToPx(context, 22);
 
                             d.Window.Attributes = p;
                         }
@@ -168,13 +167,13 @@ namespace AndroidHUD
             }
         }
 
-        int DpToPx(Context context, int dp)
+        private int DpToPx(Context context, int dp)
         {
             var displayMetrics = context.Resources.DisplayMetrics;
             return (int)TypedValue.ApplyDimension(ComplexUnitType.Dip, dp, displayMetrics);
         }
 
-        void showProgress(Context context, int progress, string status = null, MaskType maskType = MaskType.Black, TimeSpan? timeout = null, Action clickCallback = null, Action cancelCallback = null, Action<Dialog> prepareDialogCallback = null, Action<Dialog> dialogShownCallback = null)
+        private void showProgress(Context context, int progress, string status = null, MaskType maskType = MaskType.Black, TimeSpan? timeout = null, Action clickCallback = null, Action cancelCallback = null, Action<Dialog> prepareDialogCallback = null, Action<Dialog> dialogShownCallback = null)
         {
             if (!timeout.HasValue || timeout == null)
                 timeout = TimeSpan.Zero;
@@ -222,7 +221,7 @@ namespace AndroidHUD
             }
         }
 
-        void showImage(Context context, Drawable image, string status = null, MaskType maskType = MaskType.Black, TimeSpan? timeout = null, Action clickCallback = null, Action cancelCallback = null, Action<Dialog> prepareDialogCallback = null, Action<Dialog> dialogShownCallback = null)
+        private void showImage(Context context, Drawable image, string status = null, MaskType maskType = MaskType.Black, TimeSpan? timeout = null, Action clickCallback = null, Action cancelCallback = null, Action<Dialog> prepareDialogCallback = null, Action<Dialog> dialogShownCallback = null)
         {
             if (timeout == null)
                 timeout = TimeSpan.Zero;
@@ -270,7 +269,7 @@ namespace AndroidHUD
             }
         }
 
-        void RunTimeout(Context context, TimeSpan? timeout)
+        private void RunTimeout(Context context, TimeSpan? timeout)
         {
             if (timeout > TimeSpan.Zero)
             {
@@ -287,7 +286,7 @@ namespace AndroidHUD
             }
         }
 
-        void SetupDialog(Context context, MaskType maskType, Action cancelCallback, Func<Context, Dialog, MaskType, View> customSetup, Action<Dialog> prepareDialogCallback = null, Action<Dialog> dialogShownCallback = null)
+        private void SetupDialog(Context context, MaskType maskType, Action cancelCallback, Func<Context, Dialog, MaskType, View> customSetup, Action<Dialog> prepareDialogCallback = null, Action<Dialog> dialogShownCallback = null)
         {
             Application.SynchronizationContext.Send(state => {
 
@@ -305,7 +304,7 @@ namespace AndroidHUD
 
                 var customView = customSetup(context, dialog, maskType);
 
-                dialog.SetContentView (customView);
+                dialog.SetContentView(customView);
 
                 dialog.SetCancelable(cancelCallback != null);
                 if (cancelCallback != null)
@@ -322,7 +321,7 @@ namespace AndroidHUD
             }, null);
         }
 
-        void DismissCurrent(Context context = null)
+        private void DismissCurrent(Context context = null)
         {
             lock (dialogLock)
             {
@@ -383,7 +382,7 @@ namespace AndroidHUD
             }
         }
 
-        bool IsAlive(Java.Lang.Object @object)
+        private bool IsAlive(Java.Lang.Object @object)
         {
             if (@object == null)
                 return false;
@@ -405,4 +404,3 @@ namespace AndroidHUD
         }
     }
 }
-
