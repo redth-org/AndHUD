@@ -151,7 +151,7 @@ namespace AndroidHUD
 
 							d.Window.Attributes = p;
 						}
-							
+
 						return view;
 					}, prepareDialogCallback, dialogShownCallback);
 
@@ -168,7 +168,7 @@ namespace AndroidHUD
 			}
 		}
 
-		int DpToPx(Context context, int dp) 
+		int DpToPx(Context context, int dp)
 		{
 			var displayMetrics = context.Resources.DisplayMetrics;
             return (int)TypedValue.ApplyDimension(ComplexUnitType.Dip, dp, displayMetrics);
@@ -246,7 +246,7 @@ namespace AndroidHUD
 
 						if (maskType != MaskType.Black)
 							view.SetBackgroundResource(Resource.Drawable.roundedbgdark);
-                            
+
                         imageView?.SetImageDrawable(image);
 
 						if (statusText != null)
@@ -307,7 +307,7 @@ namespace AndroidHUD
 
                 dialog.SetContentView (customView);
 
-                dialog.SetCancelable (cancelCallback != null);	
+                dialog.SetCancelable (cancelCallback != null);
 				if (cancelCallback != null)
                     dialog.CancelEvent += (sender, e) => cancelCallback();
 
@@ -346,7 +346,7 @@ namespace AndroidHUD
 
 						waitDismiss.Reset ();
 					};
-						
+
 					// First try the SynchronizationContext
 					if (Application.SynchronizationContext != null)
 					{
@@ -396,7 +396,7 @@ namespace AndroidHUD
                 if (activity.IsFinishing)
                     return false;
 
-                if (Build.VERSION.SdkInt >= BuildVersionCodes.JellyBeanMr1 && 
+                if (Build.VERSION.SdkInt >= BuildVersionCodes.JellyBeanMr1 &&
                     activity.IsDestroyed)
                     return false;
             }
