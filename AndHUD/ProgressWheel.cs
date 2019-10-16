@@ -14,33 +14,48 @@ namespace AndroidHUD
     [Register("androidhud.ProgressWheel")]
     public class ProgressWheel : View
     {
-        // Sizes (with defaults)
-        private int _fullRadius = 100;
+        private readonly SpinHandler _spinHandler;
+        private readonly Android.OS.BuildVersionCodes _version = Android.OS.Build.VERSION.SdkInt;
 
         // Paints
-        private Paint _barPaint = new Paint();
-        private Paint _circlePaint = new Paint();
-        private Paint _rimPaint = new Paint();
-        private Paint _textPaint = new Paint();
+        private readonly Paint _barPaint = new Paint();
+        private readonly Paint _circlePaint = new Paint();
+        private readonly Paint _rimPaint = new Paint();
+        private readonly Paint _textPaint = new Paint();
+
+        // Sizes (with defaults)
+        private int _fullRadius = 100;
 
         // Rectangles
         private RectF _circleBounds = new RectF();
 
-        private int _progress = 0;
-        private SpinHandler _spinHandler;
+        private int _progress;
 
-        private Android.OS.BuildVersionCodes _version = Android.OS.Build.VERSION.SdkInt;
-
+        /// <summary>
+        /// Create an instance of ProgressWheel.
+        /// </summary>
+        /// <param name="context">Android <see cref="Context"/> to create view from.</param>
         public ProgressWheel(Context context)
             : this(context, null, 0)
         {
         }
 
+        /// <summary>
+        /// Create an instance of ProgressWheel, used by Android <see cref="LayoutInflater"/>.
+        /// </summary>
+        /// <param name="context">Android <see cref="Context"/> to create view from.</param>
+        /// <param name="attrs">Android XML attributes from the layout.</param>
         public ProgressWheel(Context context, IAttributeSet attrs)
             : this(context, attrs, 0)
         {
         }
 
+        /// <summary>
+        /// Create an instance of ProgressWheel, used by Android <see cref="LayoutInflater"/>.
+        /// </summary>
+        /// <param name="context">Android <see cref="Context"/> to create view from.</param>
+        /// <param name="attrs">Android XML attributes from the layout.</param>
+        /// <param name="defStyle">Android style to apply to view.</param>
         public ProgressWheel(Context context, IAttributeSet attrs, int defStyle)
             : base(context, attrs, defStyle)
         {
@@ -86,42 +101,94 @@ namespace AndroidHUD
             });
         }
 
+        /// <summary>
+        /// Get or set the radius of the circle to draw. Defaults to half of the
+        /// width of the view.
+        /// </summary>
         public int CircleRadius { get; set; }
 
+        /// <summary>
+        /// Get or set the length of the bar.
+        /// </summary>
         public int BarLength { get; set; }
 
+        /// <summary>
+        /// Get or set the width of the bar.
+        /// </summary>
         public int BarWidth { get; set; }
 
+        /// <summary>
+        /// Get or set the size of the text in px.
+        /// </summary>
         public int TextSize { get; set; }
 
+        /// <summary>
+        /// Get or set the top padding of the progress wheel.
+        /// </summary>
         public int WheelPaddingTop { get; set; }
 
+        /// <summary>
+        /// Get or set the bottom padding of the progress wheel.
+        /// </summary>
         public int WheelPaddingBottom { get; set; }
 
+        /// <summary>
+        /// Get or set the left padding of the progress wheel.
+        /// </summary>
         public int WheelPaddingLeft { get; set; }
 
+        /// <summary>
+        /// Get or set the right padding of the progress wheel.
+        /// </summary>
         public int WheelPaddingRight { get; set; }
 
+        /// <summary>
+        /// Gets or sets the color of the bar.
+        /// </summary>
         public Color BarColor { get; set; }
 
+        /// <summary>
+        /// Gets or sets the color of the circle.
+        /// </summary>
         public Color CircleColor { get; set; }
 
+        /// <summary>
+        /// Gets or sets the color of the rim.
+        /// </summary>
         public Color RimColor { get; set; }
 
+        /// <summary>
+        /// Gets or sets the shader of the rim.
+        /// </summary>
         public Shader RimShader
         {
             get => _rimPaint.Shader;
             set => _rimPaint.SetShader(value);
         }
 
+        /// <summary>
+        /// Gets or sets the text color.
+        /// </summary>
         public Color TextColor { get; set; }
 
+        /// <summary>
+        /// Gets or sets the spinning speed for the animation.
+        /// </summary>
         public int SpinSpeed { get; set; }
 
+        /// <summary>
+        /// Gets or sets the rim width.
+        /// </summary>
         public int RimWidth { get; set; }
 
+        /// <summary>
+        /// Gets or sets the delay in ms, between progress increases.
+        /// </summary>
         public int DelayMillis { get; set; }
 
+        /// <summary>
+        /// Gets whether the spinning animation is running.
+        /// </summary>
         public bool IsSpinning { get; private set; }
 
         /// <summary>
