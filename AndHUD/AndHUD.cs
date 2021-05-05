@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Android.App;
@@ -359,7 +359,7 @@ namespace AndroidHUD
 					}
 
                     // Otherwise try OwnerActivity on dialog
-                    var ownerActivity = CurrentDialog.OwnerActivity;
+                    var ownerActivity = CurrentDialog?.OwnerActivity;
                     if (IsAlive(ownerActivity))
                     {
                         ownerActivity.RunOnUiThread(actionDismiss);
@@ -367,20 +367,17 @@ namespace AndroidHUD
                     }
 
                     // Otherwise try get it from the Window Context
-                    if (IsAlive(CurrentDialog?.Window?.Context))
-					{
-                        if (CurrentDialog.Window.Context is Activity windowActivity)
-                        {
-                            windowActivity.RunOnUiThread(actionDismiss);
-                            return;
-                        }
+                    if (CurrentDialog?.Window?.Context is Activity windowActivity && IsAlive(windowActivity)) 
+                    {
+                        windowActivity.RunOnUiThread(actionDismiss);
+                        return;
                     }
 
                     // Finally if all else fails, let's see if someone passed in a context to dismiss and it
                     // happens to also be an Activity
-                    if (context != null && context is Activity activity)
+                    if (context is Activity activity && IsAlive(activity))
                     {
-                        activity?.RunOnUiThread(actionDismiss);
+                        activity.RunOnUiThread(actionDismiss);
                         return;
                     }
                 }
