@@ -22,8 +22,9 @@ jobs:
       run: ./build.ps1
       shell: powershell
         
-    - name: Publish NuGet Package
+    - shell: pwsh
+      name: Publish NuGet Package
       env:
         API_KEY: ${{ secrets.NUGET_API_KEY }}
-      run: dotnet nuget push **/*.nupkg -k ${API_KEY}
+      run: dotnet nuget push **/*.nupkg -k "$env:API_KEY"
       
