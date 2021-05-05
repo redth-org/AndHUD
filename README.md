@@ -50,6 +50,9 @@ AndHUD.Shared.ShowToast(this, "Click this toast to close it!", MaskType.Clear, n
 
 Changes
 -------
+v1.4.3
+  - Fixed crashes when hud is dismissing itself while Activity or Window is tearing down
+
 v1.4.2
   - Fixed text not being centered correctly
 
