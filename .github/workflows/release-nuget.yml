@@ -14,11 +14,9 @@ jobs:
       with:
         dotnet-version: '3.0.100'
     
-    - name: Download Artifacts
-      uses: actions/download-artifact@master
-      with:
-        name: Nuget Package
-        path: ./
+    - name: Build Project
+      run: ./build.ps1
+      shell: powershell
         
     - name: Publish NuGet Package
       env:
