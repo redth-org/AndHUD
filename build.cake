@@ -1,4 +1,4 @@
-#tool nuget:?package=GitVersion.CommandLine&version=5.0.1
+#tool nuget:?package=GitVersion.CommandLine&version=5.10.3
 #addin nuget:?package=Cake.Figlet&version=2.0.1
 
 var target = Argument("target", "Default");
