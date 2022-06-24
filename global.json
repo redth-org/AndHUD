@@ -1,5 +1,5 @@
 {
   "msbuild-sdks": {
-    "MSBuild.Sdk.Extras": "2.0.43"
+    "Xamarin.Legacy.Sdk": "0.2.0-alpha1"
   }
 }

@@ -1,17 +1,17 @@
-﻿<Project Sdk="MSBuild.Sdk.Extras">
+﻿<Project Sdk="Xamarin.Legacy.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>monoandroid81</TargetFrameworks>
+    <TargetFrameworks>monoandroid12.0;net6.0-android</TargetFrameworks>
     <AssemblyName>AndHUD</AssemblyName>
     <RootNamespace>AndroidHUD</RootNamespace>
     <PackageId>AndHUD</PackageId>
     <Description>AndHUD is a Progress / HUD library for Android which allows you to easily add amazing HUDs to your app!</Description>
+    <SupportedOSPlatformVersion>26.0</SupportedOSPlatformVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="..\LICENSE" Pack="true" PackagePath=""/>
-	<AndroidResource Include="Resources\**\*.xml" />
-	<AndroidResource Include="Resources\**\*.axml" />
-	<AndroidResource Include="Resources\**\*.png" />
+    <None Include="..\LICENSE" Pack="true" PackagePath="" />
+    <AndroidResource Include="Resources\**\*.xml" />
+    <AndroidResource Include="Resources\**\*.png" />
   </ItemGroup>
   
 </Project>

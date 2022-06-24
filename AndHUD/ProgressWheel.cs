@@ -1,4 +1,5 @@
 using System;
+using Android.OS;
 using Android.Views;
 using Android.Graphics;
 using Android.Util;
@@ -285,24 +286,20 @@ namespace AndroidHUD
 			spinHandler.SendEmptyMessage(0);
 		}
 
-	
-
-		class SpinHandler : Android.OS.Handler
+        private sealed class SpinHandler : Handler
 		{
-			public SpinHandler(Action<Android.OS.Message> msgAction) : base()
+			public SpinHandler(Action<Message> msgAction) : base(msgAction)
 			{
 				MessageAction = msgAction;
 			}
 
-			public Action<Android.OS.Message> MessageAction { get; private set; }
+			public Action<Message> MessageAction { get; }
 
-			public override void HandleMessage (Android.OS.Message msg)
+			public override void HandleMessage (Message msg)
 			{
 				MessageAction (msg);
 			}
 		}
-
-
 	}
 }
 

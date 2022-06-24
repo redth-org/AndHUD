@@ -3,7 +3,7 @@
     <Copyright>Copyright (c) Redth</Copyright>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/Redth/AndHUD</PackageProjectUrl>
-    <PackageIconUrl>https://raw.githubusercontent.com/Redth/AndHUD/develop/icon.png</PackageIconUrl>
+    <icon>icon.png</icon>
     <Authors>Redth</Authors>
     <Owners>Redth</Owners>
     <PackageTags>Xamarin, Android, Progress, AndHUD, AndroidHUD</PackageTags>
@@ -20,27 +20,28 @@
     <LangVersion>7.3</LangVersion>
     <NoWarn>$(NoWarn);1591;1701;1702;1705;VSX1000;NU1603</NoWarn>
   </PropertyGroup>
+  
+  <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-    <DesignTimeBuild>false</DesignTimeBuild>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <DebugType>portable</DebugType>
-    <DebugSymbols>true</DebugSymbols>
-  </PropertyGroup>
-  
-  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-    <DebugType>full</DebugType>
-    <DebugSymbols>true</DebugSymbols>
-  </PropertyGroup>
 
-  <PropertyGroup Condition=" '$(Configuration)' == 'Release' And '$(OS)' == 'Windows_NT' ">
-    <!--<IncludeSymbols>true</IncludeSymbols>
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>-->
-    
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <!-- <IncludeSymbols>true</IncludeSymbols> -->
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)icon.png" Pack="true" PackagePath=""/>
+  </ItemGroup>
   
 </Project>
