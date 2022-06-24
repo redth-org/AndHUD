@@ -67,7 +67,7 @@ Task("Build")
     var settings = new DotNetBuildSettings
     {
          Configuration = configuration,
-         OutputDirectory = artifactsDir.ToString()
+         MSBuildSettings = msBuildSettings
     };
    
     DotNetBuild(sln.ToString(), settings);
