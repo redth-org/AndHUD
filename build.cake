@@ -1,6 +1,5 @@
-#tool nuget:?package=GitVersion.CommandLine&version=5.0.1
-#tool nuget:?package=vswhere&version=2.7.1
-#addin nuget:?package=Cake.Figlet&version=1.3.1
+#tool nuget:?package=GitVersion.CommandLine&version=5.10.3
+#addin nuget:?package=Cake.Figlet&version=2.0.1
 
 var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
@@ -47,56 +46,31 @@ Task("Clean")
    EnsureDirectoryExists(artifactsDir);
 });
 
-FilePath msBuildPath;
-Task("ResolveBuildTools")
-   .WithCriteria(() => IsRunningOnWindows())
-   .Does(() => 
-{
-   var vsWhereSettings = new VSWhereLatestSettings
-   {
-      IncludePrerelease = true,
-      Requires = "Component.Xamarin"
-   };
-
-   var vsLatest = VSWhereLatest(vsWhereSettings);
-   msBuildPath = (vsLatest == null)
-      ? null
-      : vsLatest.CombineWithFilePath("./MSBuild/Current/Bin/MSBuild.exe");
-
-   if (msBuildPath != null)
-      Information("Found MSBuild at {0}", msBuildPath.ToString());
-});
-
 Task("Restore")
-   .IsDependentOn("ResolveBuildTools")
    .Does(() => 
 {
-   var settings = GetDefaultBuildSettings()
-      .WithTarget("Restore");
-   MSBuild(sln, settings);
+   DotNetRestore(sln.ToString());
 });
 
 Task("Build")
-   .IsDependentOn("ResolveBuildTools")
    .IsDependentOn("Clean")
    .IsDependentOn("Restore")
-   .Does(() =>  {
+   .Does(() => 
+{
+    var msBuildSettings = new DotNetMSBuildSettings
+    {
+        Version = versionInfo.SemVer,
+        PackageVersion = versionInfo.SemVer,
+        InformationalVersion = versionInfo.InformationalVersion
+    };
 
-   var settings = GetDefaultBuildSettings()
-      .WithProperty("Version", versionInfo.SemVer)
-      .WithProperty("PackageVersion", versionInfo.SemVer)
-      .WithProperty("InformationalVersion", versionInfo.InformationalVersion)
-      .WithProperty("NoPackageAnalysis", "True")
-      .WithTarget("Build");
-
-   if (IsRunningOnWindows())
-   {
-      var javaSdkDir = EnvironmentVariable("JAVA_HOME_8_X64");
-      Information("Setting JavaSdkDirectory to: " + javaSdkDir);
-      settings = settings.WithProperty("JavaSdkDirectory", javaSdkDir);
-   }
-
-   MSBuild(sln, settings);
+    var settings = new DotNetBuildSettings
+    {
+         Configuration = configuration,
+         MSBuildSettings = msBuildSettings
+    };
+   
+    DotNetBuild(sln.ToString(), settings);
 });
 
 Task("CopyArtifacts")
@@ -112,18 +86,3 @@ Task("Default")
    .IsDependentOn("CopyArtifacts");
 
 RunTarget(target);
-
-MSBuildSettings GetDefaultBuildSettings()
-{
-   var settings = new MSBuildSettings 
-   {
-      Configuration = configuration,
-      ArgumentCustomization = args => args.Append("/m"),
-      ToolVersion = MSBuildToolVersion.VS2019
-   };
-
-   if (msBuildPath != null)
-      settings.ToolPath = msBuildPath;
-
-   return settings;
-}

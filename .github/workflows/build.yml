@@ -10,11 +10,21 @@ jobs:
     steps:
     - uses: actions/checkout@v1
 
-    - name: Build Project
-      run: ./build.ps1
-      shell: powershell
-      
+    - name: Setup .NET 6
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0.x
+
+    - name: Install iOS workload
+      run: dotnet workload install android
+
+    - name: Restore dotnet tools
+      run: dotnet tool restore
+
+    - name: Run the Cake script
+      run: dotnet cake
+
     - uses: actions/upload-artifact@master
       with:
-        name: Nuget Package
+        name: NugetPackage
         path: artifacts
