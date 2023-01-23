@@ -10,12 +10,12 @@ jobs:
     steps:
     - uses: actions/checkout@v1
 
-    - name: Setup .NET 6
+    - name: Setup .NET 7
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 6.0.x
+        dotnet-version: 7.0.x
 
-    - name: Install iOS workload
+    - name: Install workload
       run: dotnet workload install android
 
     - name: Restore dotnet tools
