@@ -1,4 +1,4 @@
-using AndroidHUD;
+﻿using AndroidHUD;
 using AndroidX.AppCompat.App;
 
 namespace SampleNet6;
@@ -32,14 +32,14 @@ public class MainActivity : AppCompatActivity
         base.OnCreate(savedInstanceState);
 
         // Set our view from the "main" layout resource
-        SetContentView(Resource.Layout.activity_main);
+        SetContentView(Sample.Resource.Layout.activity_main);
         
-        var toolbar = FindViewById<AndroidX.AppCompat.Widget.Toolbar>(Resource.Id.toolbar);
+        var toolbar = FindViewById<AndroidX.AppCompat.Widget.Toolbar>(Sample.Resource.Id.toolbar);
         SetSupportActionBar(toolbar);
 
         var adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItem1, _demos);
 
-        _listView = FindViewById<ListView>(Resource.Id.listview);
+        _listView = FindViewById<ListView>(Sample.Resource.Id.listview);
         _listView.Adapter = adapter;
         _listView.ItemClick += OnItemClick;
     }
@@ -92,7 +92,7 @@ public class MainActivity : AppCompatActivity
                     AndHUD.Shared.ShowToast(this, "This is a non-centered Toast...", MaskType.Clear, TimeSpan.FromSeconds(3), false);
                     break;
                 case "Custom Image":
-                    AndHUD.Shared.ShowImage(this, Resource.Drawable.ic_questionstatus, "Custom Image...", MaskType.Black, TimeSpan.FromSeconds(3));
+                    AndHUD.Shared.ShowImage(this, Sample.Resource.Drawable.ic_questionstatus, "Custom Image...", MaskType.Black, TimeSpan.FromSeconds(3));
                     break;
                 case "Click Callback":
                     AndHUD.Shared.ShowToast(this, "Click this toast to close it!", MaskType.Clear, null, true, () => AndHUD.Shared.Dismiss(this));
