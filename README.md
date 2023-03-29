@@ -21,10 +21,10 @@ Quick and Simple
 ----------------
 ```csharp
 //Show a simple status message with an indeterminate spinner
-AndHUD.Shared.Show(myActivity, "Status Message", MaskType.Clear);
+AndHUD.Shared.Show(myActivity, "Status Message", -1, MaskType.Clear);
 
 //Show a progress with a filling circle representing the progress amount
-AndHUD.Shared.ShowProgress(myActivity, "Loading… 60%", 60);
+AndHUD.Shared.Show(myActivity, "Loading… 60%", 60);
 
 //Show a success image with a message
 AndHUD.Shared.ShowSuccess(myActivity, "It Worked!", MaskType.Clear, TimeSpan.FromSeconds(2));
