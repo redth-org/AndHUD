@@ -22,7 +22,8 @@ public class MainActivity : AppCompatActivity
         "Click Callback",
         "Cancellable Callback",
         "Long Message",
-        "Really Long Message"
+        "Really Long Message",
+        "Deadlock"
     };
 
     private ListView _listView;
@@ -106,7 +107,19 @@ public class MainActivity : AppCompatActivity
                 case "Really Long Message":
                     AndHUD.Shared.Show(this, "This is a really really long message to display as a status indicator, so you should shorten it!", -1, MaskType.Black, TimeSpan.FromSeconds(3));
                     break;
+                case "Deadlock":
+                    DeadlockScenario();
+                    break;
             }
+            }
+
+    private async void DeadlockScenario()
+    {
+        AndHUD.Shared.ShowToast(this, "Deadlocking!", MaskType.None, null, true, null, () => AndHUD.Shared.Dismiss());
+
+        Task.Run(() => AndHUD.Shared.Dismiss());
+        await Task.Delay(1);
+        AndHUD.Shared.Dismiss();
         }
 
         void ShowProgressDemo(Action<int> action)
