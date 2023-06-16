@@ -96,10 +96,10 @@ public class MainActivity : AppCompatActivity
                     AndHUD.Shared.ShowImage(this, Sample.Resource.Drawable.ic_questionstatus, "Custom Image...", MaskType.Black, TimeSpan.FromSeconds(3));
                     break;
                 case "Click Callback":
-                    AndHUD.Shared.ShowToast(this, "Click this toast to close it!", MaskType.Clear, null, true, () => AndHUD.Shared.Dismiss(this));
+                    AndHUD.Shared.ShowToast(this, "Click this toast to close it!", MaskType.Clear, null, true, () => AndHUD.Shared.Dismiss());
                     break;
                 case "Cancellable Callback":
-                    AndHUD.Shared.ShowToast(this, "Click back button to cancel/close it!", MaskType.None, null, true, null, () => AndHUD.Shared.Dismiss(this));
+                    AndHUD.Shared.ShowToast(this, "Click back button to cancel/close it!", MaskType.None, null, true, null, () => AndHUD.Shared.Dismiss());
                     break;
                 case "Long Message":
                     AndHUD.Shared.Show(this, "This is a longer message to display!", -1, MaskType.Black, TimeSpan.FromSeconds(3));
@@ -111,7 +111,7 @@ public class MainActivity : AppCompatActivity
                     DeadlockScenario();
                     break;
             }
-            }
+        }
 
     private async void DeadlockScenario()
     {
@@ -120,9 +120,9 @@ public class MainActivity : AppCompatActivity
         Task.Run(() => AndHUD.Shared.Dismiss());
         await Task.Delay(1);
         AndHUD.Shared.Dismiss();
-        }
+    }
 
-        void ShowProgressDemo(Action<int> action)
+    void ShowProgressDemo(Action<int> action)
         {
             Task.Run(() => {
                 int progress = 0;
@@ -135,7 +135,7 @@ public class MainActivity : AppCompatActivity
                     progress += 10;
                 }
 
-                AndHUD.Shared.Dismiss(this);
+                AndHUD.Shared.Dismiss();
             });
         }
 
@@ -147,7 +147,7 @@ public class MainActivity : AppCompatActivity
 
                 new ManualResetEvent(false).WaitOne(3000);
 
-                AndHUD.Shared.Dismiss(this);
+                AndHUD.Shared.Dismiss();
             });
         }
 }
