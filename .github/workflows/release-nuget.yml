@@ -3,24 +3,31 @@ name: Release NuGet
 on:
   release:
     types: [published]
-
   workflow_dispatch:
+    inputs:
+      runId:
+        description: "The run id of the GitHub Action Run to publish artifacts from"
+        required: false
+        default: '-1'
 
 jobs:
-  build:
+  nuget-publish:
     runs-on: windows-latest
-
     steps:
-    - uses: actions/checkout@v1
-
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v1
+    - name: Download specific artifact
+      if: ${{ github.event.inputs.runId > 0 }}
+      uses: dawidd6/action-download-artifact@v2
       with:
-        dotnet-version: '7.0.x'
-    
-    - name: Build Project
-      run: ./build.ps1
-      shell: powershell
+        workflow: build.yml
+        branch: main
+        run_id: ${{ github.event.inputs.runId }}
+
+    - name: Download latest artifact
+      if: ${{ github.event.inputs.runId == -1 }}
+      uses: dawidd6/action-download-artifact@v2
+      with:
+        workflow: build.yml
+        branch: main
         
     - shell: pwsh
       name: Publish NuGet Package
