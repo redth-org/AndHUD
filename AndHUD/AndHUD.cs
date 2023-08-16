@@ -31,7 +31,6 @@ namespace AndroidHUD
 		{
 		}
 
-		ManualResetEvent waitDismiss = new ManualResetEvent(false);
 		public Dialog CurrentDialog { get; private set; }
 
 		ProgressWheel progressWheel = null;
@@ -40,8 +39,7 @@ namespace AndroidHUD
 
 		object statusObj = null;
 
-		readonly object dialogLock = new object();
-
+        private readonly SemaphoreSlim _semaphoreSlim = new(1);
 
 		public void Show (Context context, string status = null, int progress = -1, MaskType maskType = MaskType.Black, TimeSpan? timeout = null, Action clickCallback = null, bool centered = true, Action cancelCallback = null, Action<Dialog> prepareDialogCallback = null, Action<Dialog> dialogShownCallback = null)
 		{
@@ -86,9 +84,17 @@ namespace AndroidHUD
 			showStatus (context, false, status, maskType, timeout, clickCallback, centered, cancelCallback, prepareDialogCallback, dialogShownCallback);
 		}
 
-		public void Dismiss(Context context = null)
+		public void Dismiss()
 		{
-			DismissCurrent (context);
+            _semaphoreSlim.Wait();
+            try
+            {
+                DismissCurrent ();
+            }
+            finally
+            {
+                _semaphoreSlim.Release();
+            }
 		}
 
         Drawable GetDrawable(Context context, int drawableResourceId)
@@ -111,58 +117,67 @@ namespace AndroidHUD
 				timeout = TimeSpan.Zero;
 
 			if (CurrentDialog != null && statusObj == null)
-				DismissCurrent (context);
+				DismissCurrent ();
+            
+            _semaphoreSlim.Wait();
+            try
+            {
+                if (CurrentDialog == null)
+                {
+                    SetupDialog (context, maskType, cancelCallback, (a, d, m) => {
+                        var view = LayoutInflater.From (context)?.Inflate (Resource.Layout.loading, null);
 
-			lock (dialogLock)
-			{
-				if (CurrentDialog == null)
-				{
-					SetupDialog (context, maskType, cancelCallback, (a, d, m) => {
-						View view = LayoutInflater.From (context).Inflate (Resource.Layout.loading, null);
+                        if (clickCallback != null && view is not null)
+                            view.Click += (sender, e) => clickCallback();
 
-						if (clickCallback != null)
-							view.Click += (sender, e) => clickCallback();
+                        statusObj = new object();
 
-						statusObj = new object();
+                        statusText = view?.FindViewById<TextView>(Resource.Id.textViewStatus);
 
-						statusText = view.FindViewById<TextView>(Resource.Id.textViewStatus);
+                        if (!spinner)
+                        {
+                            var progressBar = view?.FindViewById<ProgressBar>(Resource.Id.loadingProgressBar);
+                            if (progressBar != null)
+                                progressBar.Visibility = ViewStates.Gone;
+                        }
 
-						if (!spinner)
-							view.FindViewById<ProgressBar>(Resource.Id.loadingProgressBar).Visibility = ViewStates.Gone;
+                        if (maskType != MaskType.Black)
+                            view?.SetBackgroundResource(Resource.Drawable.roundedbgdark);
 
-						if (maskType != MaskType.Black)
-							view.SetBackgroundResource(Resource.Drawable.roundedbgdark);
+                        if (statusText != null)
+                        {
+                            statusText.Text = status ?? "";
+                            statusText.Visibility = string.IsNullOrEmpty(status) ? ViewStates.Gone : ViewStates.Visible;
+                        }
 
-						if (statusText != null)
-						{
-							statusText.Text = status ?? "";
-							statusText.Visibility = string.IsNullOrEmpty(status) ? ViewStates.Gone : ViewStates.Visible;
-						}
+                        if (!centered && d.Window is not null)
+                        {
+                            d.Window.SetGravity (GravityFlags.Bottom);
+                            var p = d.Window.Attributes;
 
-						if (!centered)
-						{
-							d.Window.SetGravity (GravityFlags.Bottom);
-							var p = d.Window.Attributes;
+                            p.Y = DpToPx (context, 22);
 
-							p.Y = DpToPx (context, 22);
+                            d.Window.Attributes = p;
+                        }
 
-							d.Window.Attributes = p;
-						}
-							
-						return view;
-					}, prepareDialogCallback, dialogShownCallback);
+                        return view;
+                    }, prepareDialogCallback, dialogShownCallback);
 
-                    RunTimeout(context, timeout);
+                    RunTimeout(timeout);
                 }
-				else
-				{
+                else
+                {
 
-					Application.SynchronizationContext.Send(state => {
-						if (statusText != null)
-							statusText.Text = status ?? "";
-					}, null);
-				}
-			}
+                    Application.SynchronizationContext.Send(_ => {
+                        if (statusText != null)
+                            statusText.Text = status ?? "";
+                    }, null);
+                }
+            }
+            finally
+            {
+                _semaphoreSlim.Release();
+            }
 		}
 
 		int DpToPx(Context context, int dp) 
@@ -173,50 +188,54 @@ namespace AndroidHUD
 
 		void showProgress(Context context, int progress, string status = null, MaskType maskType = MaskType.Black, TimeSpan? timeout = null, Action clickCallback = null, Action cancelCallback = null, Action<Dialog> prepareDialogCallback = null, Action<Dialog> dialogShownCallback = null)
 		{
-			if (!timeout.HasValue || timeout == null)
-				timeout = TimeSpan.Zero;
+			timeout ??= TimeSpan.Zero;
 
 			if (CurrentDialog != null && progressWheel == null)
-				DismissCurrent (context);
+				DismissCurrent ();
 
-			lock (dialogLock)
-			{
-				if (CurrentDialog == null)
-				{
-					SetupDialog (context, maskType, cancelCallback, (a, d, m) => {
-						var inflater = LayoutInflater.FromContext(context);
-						var view = inflater.Inflate(Resource.Layout.loadingprogress, null);
+            _semaphoreSlim.Wait();
+            try
+            {
+                if (CurrentDialog == null)
+                {
+                    SetupDialog (context, maskType, cancelCallback, (a, d, m) => {
+                        var inflater = LayoutInflater.FromContext(context);
+                        var view = inflater?.Inflate(Resource.Layout.loadingprogress, null);
 
-						if (clickCallback != null)
-							view.Click += (sender, e) => clickCallback();
+                        if (clickCallback != null && view is not null)
+                            view.Click += (sender, e) => clickCallback();
 
-						progressWheel = view.FindViewById<ProgressWheel>(Resource.Id.loadingProgressWheel);
-						statusText = view.FindViewById<TextView>(Resource.Id.textViewStatus);
+                        progressWheel = view?.FindViewById<ProgressWheel>(Resource.Id.loadingProgressWheel);
+                        statusText = view?.FindViewById<TextView>(Resource.Id.textViewStatus);
 
-						if (maskType != MaskType.Black)
-							view.SetBackgroundResource(Resource.Drawable.roundedbgdark);
+                        if (maskType != MaskType.Black)
+                            view?.SetBackgroundResource(Resource.Drawable.roundedbgdark);
 
-						progressWheel.SetProgress(0);
+                        progressWheel?.SetProgress(0);
 
-						if (statusText != null)
-						{
-							statusText.Text = status ?? "";
-							statusText.Visibility = string.IsNullOrEmpty(status) ? ViewStates.Gone : ViewStates.Visible;
-						}
+                        if (statusText != null)
+                        {
+                            statusText.Text = status ?? "";
+                            statusText.Visibility = string.IsNullOrEmpty(status) ? ViewStates.Gone : ViewStates.Visible;
+                        }
 
-						return view;
-					}, prepareDialogCallback, dialogShownCallback);
+                        return view;
+                    }, prepareDialogCallback, dialogShownCallback);
 
-                    RunTimeout(context, timeout);
+                    RunTimeout(timeout);
                 }
-				else
-				{
-					Application.SynchronizationContext.Send(state => {
-						progressWheel?.SetProgress (progress);
-						statusText.Text = status ?? "";
-					}, null);
-				}
-			}
+                else
+                {
+                    Application.SynchronizationContext.Send(state => {
+                        progressWheel?.SetProgress (progress);
+                        statusText.Text = status ?? "";
+                    }, null);
+                }
+            }
+            finally
+            {
+                _semaphoreSlim.Release();
+            }
 		}
 
 		void showImage(Context context, Drawable image, string status = null, MaskType maskType = MaskType.Black, TimeSpan? timeout = null, Action clickCallback = null, Action cancelCallback = null, Action<Dialog> prepareDialogCallback = null, Action<Dialog> dialogShownCallback = null)
@@ -225,62 +244,66 @@ namespace AndroidHUD
 				timeout = TimeSpan.Zero;
 
 			if (CurrentDialog != null && imageView == null)
-				DismissCurrent (context);
+				DismissCurrent ();
 
-			lock (dialogLock)
-			{
-				if (CurrentDialog == null)
-				{
-					SetupDialog (context, maskType, cancelCallback, (a, d, m) => {
-						var inflater = LayoutInflater.FromContext(context);
-						var view = inflater.Inflate(Resource.Layout.loadingimage, null);
+            _semaphoreSlim.Wait();
+            try
+            {
+                if (CurrentDialog == null)
+                {
+                    SetupDialog (context, maskType, cancelCallback, (a, d, m) => {
+                        var inflater = LayoutInflater.FromContext(context);
+                        var view = inflater?.Inflate(Resource.Layout.loadingimage, null);
 
-						if (clickCallback != null)
-							view.Click += (sender, e) => clickCallback();
+                        if (clickCallback != null && view is not null)
+                            view.Click += (sender, e) => clickCallback();
 
-						imageView = view.FindViewById<ImageView>(Resource.Id.loadingImage);
-						statusText = view.FindViewById<TextView>(Resource.Id.textViewStatus);
+                        imageView = view?.FindViewById<ImageView>(Resource.Id.loadingImage);
+                        statusText = view?.FindViewById<TextView>(Resource.Id.textViewStatus);
 
-						if (maskType != MaskType.Black)
-							view.SetBackgroundResource(Resource.Drawable.roundedbgdark);
+                        if (maskType != MaskType.Black)
+                            view?.SetBackgroundResource(Resource.Drawable.roundedbgdark);
                             
                         imageView?.SetImageDrawable(image);
 
-						if (statusText != null)
-						{
-							statusText.Text = status ?? "";
-							statusText.Visibility = string.IsNullOrEmpty(status) ? ViewStates.Gone : ViewStates.Visible;
-						}
+                        if (statusText != null)
+                        {
+                            statusText.Text = status ?? "";
+                            statusText.Visibility = string.IsNullOrEmpty(status) ? ViewStates.Gone : ViewStates.Visible;
+                        }
 
-						return view;
-					}, prepareDialogCallback, dialogShownCallback);
+                        return view;
+                    }, prepareDialogCallback, dialogShownCallback);
 
-                    RunTimeout(context, timeout);
-				}
-				else
-				{
-					Application.SynchronizationContext.Send(state => {
+                    RunTimeout(timeout);
+                }
+                else
+                {
+                    Application.SynchronizationContext.Send(state => {
                         imageView?.SetImageDrawable(image);
-						statusText.Text = status ?? "";
-					}, null);
-				}
-			}
+                        statusText.Text = status ?? "";
+                    }, null);
+                }
+            }
+            finally
+            {
+                _semaphoreSlim.Release();
+            }
 		}
 
-        void RunTimeout(Context context, TimeSpan? timeout)
+        async void RunTimeout(TimeSpan? timeout)
         {
             if (timeout > TimeSpan.Zero)
             {
-                Task.Run(() => {
-                    if (!waitDismiss.WaitOne(timeout.Value))
-                        DismissCurrent(context);
-
-                }).ContinueWith(ct => {
-                    var ex = ct.Exception;
-
-                    if (ex != null)
-                        Android.Util.Log.Error("AndHUD", ex.ToString());
-                }, TaskContinuationOptions.OnlyOnFaulted);
+                try
+                {
+                    await Task.Delay(timeout.Value).ConfigureAwait(false);
+                    DismissCurrent();
+                }
+                catch (Exception e)
+                {
+                    Log.Error("AndHUD", e.ToString());
+                }
             }
         }
 
@@ -304,7 +327,7 @@ namespace AndroidHUD
 
                 dialog.SetContentView (customView);
 
-                dialog.SetCancelable (cancelCallback != null);	
+                dialog.SetCancelable (cancelCallback != null);
 				if (cancelCallback != null)
                     dialog.CancelEvent += (sender, e) => cancelCallback();
 
@@ -319,72 +342,39 @@ namespace AndroidHUD
 			}, null);
 		}
 
-		void DismissCurrent(Context context = null)
-		{
-			lock (dialogLock)
-			{
-				if (CurrentDialog != null)
-				{
-					waitDismiss.Set ();
-
-					Action actionDismiss = () =>
-					{
-                        try
-                        {
-                            if (IsAlive(CurrentDialog) && IsAlive(CurrentDialog.Window))
-                            {
-                                CurrentDialog.Hide();
-                                CurrentDialog.Dismiss();
-                            }
-                        }
-                        catch
-                        {
-                            // ignore
-                        }
-
-						statusText = null;
-						statusObj = null;
-						imageView = null;
-						progressWheel = null;
-						CurrentDialog = null;
-
-						waitDismiss.Reset ();
-					};
-						
-					// First try the SynchronizationContext
-					if (Application.SynchronizationContext != null)
-					{
-						Application.SynchronizationContext.Send (state => actionDismiss (), null);
-						return;
-					}
-
-                    // Otherwise try OwnerActivity on dialog
-                    var ownerActivity = CurrentDialog?.OwnerActivity;
-                    if (IsAlive(ownerActivity))
+		void DismissCurrent()
+        {
+            if (CurrentDialog != null)
+            {
+                void ActionDismiss()
+                {
+                    try
                     {
-                        ownerActivity.RunOnUiThread(actionDismiss);
-                        return;
+                        if (!IsAlive(CurrentDialog) || !IsAlive(CurrentDialog.Window))
+                            return;
+
+                        CurrentDialog.Hide();
+                        CurrentDialog.Dismiss();
                     }
-
-                    // Otherwise try get it from the Window Context
-                    if (CurrentDialog?.Window?.Context is Activity windowActivity && IsAlive(windowActivity)) 
+                    catch (Exception ex)
                     {
-                        windowActivity.RunOnUiThread(actionDismiss);
-                        return;
+                        Log.Error("AndHUD", "Failed to dismiss dialog {0}", ex.ToString());
                     }
-
-                    // Finally if all else fails, let's see if someone passed in a context to dismiss and it
-                    // happens to also be an Activity
-                    if (context is Activity activity && IsAlive(activity))
+                    finally
                     {
-                        activity.RunOnUiThread(actionDismiss);
-                        return;
+                        statusText = null;
+                        statusObj = null;
+                        imageView = null;
+                        progressWheel = null;
+                        CurrentDialog = null;
                     }
                 }
-			}
-		}
 
-        bool IsAlive(Java.Lang.Object @object)
+                Application.SynchronizationContext.Send(_ => ActionDismiss(), null);
+            }
+        }
+
+        static bool IsAlive(Java.Lang.Object @object)
         {
             if (@object == null)
                 return false;
@@ -413,4 +403,3 @@ namespace AndroidHUD
 		Black = 3
 	}
 }
-

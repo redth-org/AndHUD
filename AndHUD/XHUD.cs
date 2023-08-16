@@ -24,7 +24,7 @@ namespace XHUD
 
 		public static void Dismiss()
 		{
-			AndHUD.Shared.Dismiss(HUD.MyActivity);
+			AndHUD.Shared.Dismiss();
 		}
 
 		public static void ShowToast(string message, bool showToastCentered = true, double timeoutMs = 1000)
