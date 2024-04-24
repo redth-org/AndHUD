@@ -13,7 +13,9 @@ using Android.Widget;
 namespace AndroidHUD
 {
     public class AndHUD
-	{
+    {
+        private const string TagName = nameof(AndHUD);
+        
 		static AndHUD shared;
 
 		public static AndHUD Shared
@@ -86,7 +88,11 @@ namespace AndroidHUD
 
 		public void Dismiss()
 		{
-            _semaphoreSlim.Wait();
+            if (!_semaphoreSlim.Wait(1000))
+            {
+                Log.Warn(TagName, "Timed out getting semaphore on Dismiss()");
+                return;
+            }
             try
             {
                 DismissCurrent ();
@@ -116,10 +122,15 @@ namespace AndroidHUD
 			if (timeout == null)
 				timeout = TimeSpan.Zero;
 
-			if (CurrentDialog != null && statusObj == null)
-				DismissCurrent ();
-            
-            _semaphoreSlim.Wait();
+            if (!_semaphoreSlim.Wait(1000))
+            {
+                Log.Warn(TagName, "Timed out getting semaphore on showStatus()");
+                return;
+            }
+
+            if (CurrentDialog != null && statusObj == null)
+                DismissCurrent ();
+
             try
             {
                 if (CurrentDialog == null)
@@ -190,10 +201,15 @@ namespace AndroidHUD
 		{
 			timeout ??= TimeSpan.Zero;
 
-			if (CurrentDialog != null && progressWheel == null)
-				DismissCurrent ();
+            if (!_semaphoreSlim.Wait(1000))
+            {
+                Log.Warn(TagName, "Timed out getting semaphore on showProgress()");
+                return;
+            }
+            
+            if (CurrentDialog != null && progressWheel == null)
+                DismissCurrent ();
 
-            _semaphoreSlim.Wait();
             try
             {
                 if (CurrentDialog == null)
@@ -243,10 +259,14 @@ namespace AndroidHUD
 			if (timeout == null)
 				timeout = TimeSpan.Zero;
 
-			if (CurrentDialog != null && imageView == null)
-				DismissCurrent ();
+            if (!_semaphoreSlim.Wait(1000))
+            {
+                Log.Warn(TagName, "Timed out getting semaphore on showImage()");
+                return;
+            }
 
-            _semaphoreSlim.Wait();
+            if (CurrentDialog != null && imageView == null)
+                DismissCurrent ();
             try
             {
                 if (CurrentDialog == null)
@@ -302,7 +322,7 @@ namespace AndroidHUD
                 }
                 catch (Exception e)
                 {
-                    Log.Error("AndHUD", e.ToString());
+                    Log.Error(TagName, e.ToString());
                 }
             }
         }
@@ -358,7 +378,7 @@ namespace AndroidHUD
                     }
                     catch (Exception ex)
                     {
-                        Log.Error("AndHUD", "Failed to dismiss dialog {0}", ex.ToString());
+                        Log.Error(TagName, "Failed to dismiss dialog {0}", ex.ToString());
                     }
                     finally
                     {

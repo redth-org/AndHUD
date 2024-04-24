@@ -1,16 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-      <TargetFramework>net7.0-android</TargetFramework>
-      <SupportedOSPlatformVersion>22</SupportedOSPlatformVersion>
+      <TargetFramework>net8.0-android</TargetFramework>
       <OutputType>Exe</OutputType>
+      <SupportedOSPlatformVersion>22</SupportedOSPlatformVersion>
       <Nullable>enable</Nullable>
       <ImplicitUsings>enable</ImplicitUsings>
       <ApplicationId>com.companyname.SampleNet6</ApplicationId>
       <ApplicationVersion>1</ApplicationVersion>
       <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
-      <LangVersion>latest</LangVersion>
-      <IsPackable>False</IsPackable>
-      <AndroidGenerateResourceDesigner>true</AndroidGenerateResourceDesigner>
     </PropertyGroup>
 
     <ItemGroup>
@@ -18,9 +15,9 @@
     </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Xamarin.AndroidX.Activity" Version="1.6.1.1" />
-    <PackageReference Include="Xamarin.AndroidX.Fragment" Version="1.5.5.1" />
-    <PackageReference Include="Xamarin.Google.Android.Material" Version="1.7.0.2" />
+    <PackageReference Include="Xamarin.AndroidX.Activity" Version="1.8.2.1" />
+    <PackageReference Include="Xamarin.AndroidX.Fragment" Version="1.6.2.2" />
+    <PackageReference Include="Xamarin.Google.Android.Material" Version="1.10.0.3" />
   </ItemGroup>
 
 </Project>

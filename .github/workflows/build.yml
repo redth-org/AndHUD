@@ -9,11 +9,17 @@ jobs:
     
     steps:
     - uses: actions/checkout@v1
+      
+    - name: Setup Java JDK
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'microsoft'
+        java-version: '17'
 
-    - name: Setup .NET 7
+    - name: Setup .NET 8
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 7.0.x
+        dotnet-version: 8.0.x
 
     - name: Install workload
       run: dotnet workload install android

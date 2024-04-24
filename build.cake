@@ -1,5 +1,5 @@
-#tool nuget:?package=GitVersion.CommandLine&version=5.10.3
-#addin nuget:?package=Cake.Figlet&version=2.0.1
+#tool dotnet:https://api.nuget.org/v3/index.json?package=GitVersion.Tool&version=5.12.0
+#addin nuget:https://api.nuget.org/v3/index.json?package=Cake.Figlet&version=2.0.1
 
 var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");

@@ -1,4 +1,5 @@
-﻿using AndroidHUD;
+﻿using Android.Content;
+using AndroidHUD;
 using AndroidX.AppCompat.App;
 
 namespace SampleNet6;
@@ -116,7 +117,27 @@ public class MainActivity : AppCompatActivity
     private async void DeadlockScenario()
     {
         AndHUD.Shared.ShowToast(this, "Deadlocking!", MaskType.None, null, true, null, () => AndHUD.Shared.Dismiss());
+        
+        StartActivity(new Intent(this, typeof(SecondActivity)));
 
+        await Task.WhenAll([
+            Task.Run(() => AndHUD.Shared.Dismiss()),
+            Task.Run(() => AndHUD.Shared.Dismiss()),
+            Task.Run(() => AndHUD.Shared.Dismiss()),
+            Task.Run(() => AndHUD.Shared.Dismiss()),
+            Task.Run(() => AndHUD.Shared.Dismiss()),
+            Task.Run(() => AndHUD.Shared.Dismiss()),
+            Task.Run(() => AndHUD.Shared.Dismiss()),
+            Task.Run(() => AndHUD.Shared.Dismiss()),
+            Task.Run(() => AndHUD.Shared.Dismiss()),
+            Task.Run(() => AndHUD.Shared.Dismiss()),
+            Task.Run(() => AndHUD.Shared.Dismiss()),
+            Task.Run(() => AndHUD.Shared.Dismiss()),
+            Task.Run(() => AndHUD.Shared.Dismiss()),
+            Task.Run(() => AndHUD.Shared.Dismiss()),
+            Task.Run(() => AndHUD.Shared.Dismiss()),
+        ]);
+        
         Task.Run(() => AndHUD.Shared.Dismiss());
         await Task.Delay(1);
         AndHUD.Shared.Dismiss();
