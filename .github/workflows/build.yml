@@ -9,6 +9,12 @@ jobs:
     
     steps:
     - uses: actions/checkout@v1
+      
+    - name: Setup Java JDK
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'microsoft'
+        java-version: '17'
 
     - name: Setup .NET 8
       uses: actions/setup-dotnet@v1
