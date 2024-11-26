@@ -16,7 +16,7 @@ jobs:
     steps:
     - name: Download specific artifact
       if: ${{ github.event.inputs.runId > 0 }}
-      uses: dawidd6/action-download-artifact@v2
+      uses: dawidd6/action-download-artifact@v6
       with:
         workflow: build.yml
         branch: main
@@ -24,7 +24,7 @@ jobs:
 
     - name: Download latest artifact
       if: ${{ github.event.inputs.runId == -1 }}
-      uses: dawidd6/action-download-artifact@v2
+      uses: dawidd6/action-download-artifact@v6
       with:
         workflow: build.yml
         branch: main
