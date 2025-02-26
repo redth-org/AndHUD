@@ -2,27 +2,39 @@ name: CI
 
 on: [push]
 
+env:
+  JAVA_DISTRIBUTION: 'microsoft'
+  JAVA_VERSION: 17
+  NET_VERSION: 9.0.200
+
 jobs:
   build:
 
     runs-on: windows-latest
     
     steps:
-    - uses: actions/checkout@v1
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        fetch-tags: true
       
-    - name: Setup Java JDK
+    - name: Install .NET ${{ env.NET_VERSION }}
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.NET_VERSION }}
+
+    - name: Set up JDK
       uses: actions/setup-java@v4
       with:
-        distribution: 'microsoft'
-        java-version: '17'
+        distribution: ${{ env.JAVA_DISTRIBUTION }}
+        java-version: ${{ env.JAVA_VERSION }}
 
-    - name: Setup .NET 8
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 8.0.x
+    - name: Restore .NET tools
+      run: dotnet tool restore
 
     - name: Install workload
-      run: dotnet workload install android
+      run: dotnet workload install android --version ${{ env.NET_VERSION }}
 
     - name: Restore dotnet tools
       run: dotnet tool restore
